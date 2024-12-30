@@ -1,0 +1,36 @@
+# 忽略编译生成的文件
+/target/
+**/*.rs.bk
+
+# 忽略 Cargo 的缓存和锁文件
+Cargo.lock
+
+# 忽略 IDE 相关的文件
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 忽略调试信息
+*.d
+*.o
+*.out
+
+# 忽略日志文件
+*.log
+
+# 忽略临时文件
+*.tmp
+
+# 忽略用户特定的文件
+.env
+.secrets
+
+# 忽略构建目录
+/build/
+
+# 忽略文档生成的文件
+/doc/
+
+# 忽略测试生成的文件
+/test-results/

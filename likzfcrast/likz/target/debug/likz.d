@@ -1,1 +1,1 @@
-C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\target\debug\likz.exe: C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\src\main.rs
+C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\target\debug\likz.exe: C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\src\leetcodes\p1.rs C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\src\leetcodes\p128.rs C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\src\leetcodes\p49.rs C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\src\leetcodes.rs C:\Users\D1mo\Documents\ZaymyRsila\likzfcrast\likz\src\main.rs
