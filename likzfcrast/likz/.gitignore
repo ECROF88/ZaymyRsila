@@ -1,7 +1,7 @@
 # 忽略编译生成的文件
 /target/
 **/*.rs.bk
-
+/target/debug/
 # 忽略 Cargo 的缓存和锁文件
 Cargo.lock
 
