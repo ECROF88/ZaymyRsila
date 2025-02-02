@@ -40,3 +40,4 @@ pub fn move_zeroes(nums: &mut Vec<i32>) {
         right += 1;
     }
 }
+
