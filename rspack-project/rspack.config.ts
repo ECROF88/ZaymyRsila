@@ -18,7 +18,7 @@ export default defineConfig({
 		main: "./src/main.tsx"
 	},
 	resolve: {
-		extensions: ["...", ".ts", ".tsx", ".jsx"]
+		extensions: ["...", ".ts", ".tsx", ".jsx"],
 	},
 	module: {
 		rules: [

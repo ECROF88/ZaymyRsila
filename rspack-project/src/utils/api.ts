@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Repo } from './store';
 
 const api = axios.create({
   baseURL: 'http://localhost:3000/api/auth',
@@ -33,5 +34,10 @@ export const login = (data: LoginData) => {
 export const register = (data: RegisterData) => {
   return api.post<ApiResponse<null>>('/register', data);
 };
+
+export const addRepo = (data: string) => {
+  return api.get<ApiResponse<Repo>>('/addrepo', { params: { data } });
+}
+
 
 export default api;

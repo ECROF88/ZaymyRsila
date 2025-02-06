@@ -1,34 +1,8 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { useState, useEffect } from 'react';
-
-// 定义仓库的数据类型
-export interface Repo {
-    id: number;
-    name: string;
-    description?: string;
-    url?: string;
-}
-
-// 定义文件树节点的数据类型
-export interface FileTreeNode {
-    key: string;
-    title: string;
-    type: 'file' | 'directory';
-    children?: FileTreeNode[];
-    content?: string; // 文件内容 (只有文件节点才有)
-}
-
-interface RepoStore {
-    repos: Repo[];
-    selectedRepo: Repo | null;
-    fileTree: FileTreeNode[];
-    selectedFile: FileTreeNode | null;
-    setSelectedRepo: (repo: Repo | null) => void;
-    setSelectedFile: (file: FileTreeNode | null) => void;
-    fetchFileTree: (repo: Repo) => void;
-}
-
+import { FileTreeNode, Repo } from '@/utils/store';
+import { RepoStore } from '@/utils/store';
 // 模拟的仓库数据
 const initialRepos: Repo[] = [
     { id: 1, name: 'my-project' },
@@ -118,6 +92,18 @@ export const useRepoStore = create<RepoStore>()(
                     console.error('Failed to fetch file tree:', error);
                     // 可以添加错误处理状态
                 }
+            },
+            addRepo: (newRepo) => {
+                set((state) => ({
+                    repos: [...state.repos, { ...newRepo, id: Date.now() }]
+                }));
+            },
+
+            deleteRepo: (id) => {
+                set((state) => ({
+                    repos: state.repos.filter(repo => repo.id !== id),
+                    selectedRepo: state.selectedRepo?.id === id ? null : state.selectedRepo
+                }));
             }
         }),
         { name: 'repo-store' }

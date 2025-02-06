@@ -13,11 +13,11 @@ const ReposLayout: React.FC = () => {
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Sider width={300} theme="light" style={{ overflow: 'auto' }}>
+      <Sider width={250} theme="light" style={{ overflow: 'auto' }}>
         <RepoList />
       </Sider>
       <Layout>
-        <Content style={{ padding: '24px', overflow: 'auto' }}>
+        <Content style={{ padding: '12px', overflow: 'auto' }}>
           {selectedRepo ? (
             <div style={{ display: 'flex', height: '100%' }}>
               <div

@@ -35,6 +35,8 @@ const CodeEditor: React.FC = () => {
         language = 'json';
       } else if (fileExtension === 'md') {
         language = 'markdown';
+      } else if (fileExtension === 'c' || fileExtension === 'cpp') {
+        language = 'cpp';
       }
       // 可以根据需要添加更多文件类型和语言的映射
       editorRef.current.getModel()?.setLanguage(language);
