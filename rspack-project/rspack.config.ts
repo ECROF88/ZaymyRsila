@@ -73,5 +73,8 @@ export default defineConfig({
 	},
 	experiments: {
 		css: true
-	}
+	},
+	output: {
+		publicPath: '/', // 添加这一行，使用绝对路径
+	},
 });

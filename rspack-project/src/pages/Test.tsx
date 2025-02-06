@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { createContext, useContext, useRef, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 interface User {
@@ -6,6 +6,7 @@ interface User {
   rid: number;
   content: string;
 }
+const MyContext = createContext('');
 const initialUsers: User[] = [
   { id: 1, rid: 3, content: 'a' },
   { id: 2, rid: 2, content: 'b' },
@@ -55,6 +56,7 @@ export default function Test() {
   const getSonMsg = (msg: string) => {
     setMsg(msg);
   };
+
   return (
     <div className="p-4">
       <div>
@@ -104,6 +106,10 @@ export default function Test() {
 
       <Son data={initialUsers} aFun={getSonMsg} />
       <Son2 msg={msg} />
+      <MyContext.Provider value={msg}>
+        <Son3 />
+      </MyContext.Provider>
+      <Form />
     </div>
   );
 }
@@ -116,7 +122,9 @@ function Son({ data, aFun }) {
           <li key={n.id}>{n.content}</li>
         ))}
         <li>1</li>
-        <button onClick={() => aFun('asd')}>click</button>
+        <button className="bg-red-900" onClick={() => aFun('asdsadasd')}>
+          click
+        </button>
       </ul>
     </div>
   );
@@ -124,4 +132,81 @@ function Son({ data, aFun }) {
 
 function Son2(props) {
   return <p>this is from Son1{props.msg}</p>;
+}
+
+function Son3() {
+  const msg = useContext(MyContext);
+  return <p>this is from contdasasdext ::::{msg}</p>;
+}
+
+function Form() {
+  const [firstName, setFirstName] = useState('Taylor');
+  const [lastName, setLastName] = useState('Swift');
+
+  // ✅ 非常好：在渲染期间进行计算
+  const fullName = firstName + ' ' + lastName;
+
+  const handleFirstNameChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setFirstName(e.target.value);
+  };
+
+  const handleLastNameChange = (e: {
+    target: { value: React.SetStateAction<string> };
+  }) => {
+    setLastName(e.target.value);
+  };
+
+  return (
+    <div>
+      <label>
+        First Name:
+        <input type="text" value={firstName} onChange={handleFirstNameChange} />
+      </label>
+      <br />
+      <label>
+        Last Name:
+        <input type="text" value={lastName} onChange={handleLastNameChange} />
+      </label>
+      <br />
+      <p>Full Name: {fullName}</p>
+      <button
+        onClick={() => {
+          setLastName('asdas');
+        }}
+      >
+        click
+      </button>
+      <Hook />
+    </div>
+  );
+}
+
+function useToggle() {
+  const [value, setValue] = useState(true);
+
+  const toggle = () => {
+    setValue(!value);
+  };
+  return {
+    value,
+    toggle,
+  };
+}
+
+function Hook() {
+  const navigate = useNavigate();
+  const gotodash = () => {
+    // const navigate = useNavigate();
+    navigate('/dashboard');
+  };
+  const { value, toggle } = useToggle();
+  return (
+    <div className="flex-auto h-20 w-20 bg-amber-400">
+      {value && <div>this shows while true</div>}
+      <button onClick={toggle}>toggle</button>
+      <button onClick={gotodash}>gotodashboard</button>
+    </div>
+  );
 }

@@ -11,12 +11,38 @@ import { create } from 'zustand'
 // }))
 
 
-interface VoteStore {
-    votes: number
-    setVotes: () => void
+// 定义仓库的数据类型
+export interface Repo {
+    id: number;
+    name: string;
+    description?: string;
+    url?: string;
 }
 
-export const useStore = create<VoteStore>((set) => ({
-    votes: 0,
-    setVotes: () => set((state) => ({ votes: state.votes + 1 })),
-}))
+// 定义文件树节点的数据类型
+export interface FileTreeNode {
+    key: string;
+    title: string;
+    type: 'file' | 'directory';
+    children?: FileTreeNode[];
+    content?: string; // 文件内容 (只有文件节点才有)
+}
+
+interface RepoStore {
+    repos: Repo[];
+    selectedRepo: Repo | null;
+    fileTree: FileTreeNode[];
+    selectedFile: FileTreeNode | null;
+    setSelectedRepo: (repo: Repo | null) => void;
+    setSelectedFile: (file: FileTreeNode | null) => void;
+    fetchFileTree: (repo: Repo) => void;
+}
+// interface VoteStore {
+//     votes: number
+//     setVotes: () => void
+// }
+
+// export const useStore = create<VoteStore>((set) => ({
+//     votes: 0,
+//     setVotes: () => set((state) => ({ votes: state.votes + 1 })),
+// }))

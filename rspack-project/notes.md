@@ -62,3 +62,21 @@ padding-top:8px
 margin: 6px(上下) 12px（左右）
 margin: 12px 8px 10px 14px (上右下左，顺时针)
 border: 2px solid black （有好几种线条）
+
+useEffect:
+1. 没有依赖项 ：初始+ 组件更新,组件更新的时候useeffect里面也会重新执行
+2. 依赖项空数组[] : 只有初始
+3. 传入特定依赖项 初始+依赖项变化时
+清除副作用： cleanup清理函数
+return () => {
+  /// 清除副作用逻辑
+}
+1. 将组件挂载到页面时，将运行 setup 代码。
+2. 重新渲染 依赖项 变更的组件后：
+ - 首先，使用旧的 props 和 state 运行 cleanup 代码。
+ - 然后，使用新的 props 和 state 运行 setup 代码。
+3. 当组件从页面卸载后，cleanup 代码 将运行最后一次。
+
+useContext 和自定义 Hook可以在外部使用
+
+自定义Hook本质是进行功能的封装抽象
