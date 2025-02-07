@@ -46,7 +46,8 @@ const CodeEditor: React.FC = () => {
 
   return (
     <Editor
-      height="300px"
+      // height=""
+      className="w-svh"
       theme="vs-light"
       language={language} // 根据文件类型设置语言
       options={{

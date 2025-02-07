@@ -4,7 +4,7 @@ import { create } from 'zustand';
 const initialState: UserData = {
   name: '',
   email: '',
-  avatar: null,
+  avatar: undefined,
 };
 export const useUserStore = create<{
   userData: UserData;

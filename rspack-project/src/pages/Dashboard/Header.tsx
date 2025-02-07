@@ -63,7 +63,7 @@ const HeaderContent: React.FC = () => {
       <Space size={40}>
         {/* 消息通知 */}
         <Dropdown menu={notificationItems} placement="bottomRight">
-          <Badge count={2} size="small">
+          <Badge count={2} size="default">
             <BellOutlined className="text-xl cursor-pointer hover:text-blue-200" />
           </Badge>
         </Dropdown>

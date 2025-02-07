@@ -4,6 +4,7 @@ import { Layout } from 'antd';
 import RepoList from './ReposList';
 import FileTree from './FileTree';
 import CodeEditor from './CodeEditor';
+import GitState from './GitState';
 import useRepoData from './hooks/useRepoData';
 
 const { Sider, Content } = Layout;
@@ -12,7 +13,7 @@ const ReposLayout: React.FC = () => {
   const { selectedRepo } = useRepoData();
 
   return (
-    <Layout className="h-screen">
+    <Layout className="h-[calc(100vh-100px)]">
       <Sider width={250} theme="light" className="overflow-auto">
         <RepoList />
       </Sider>
@@ -23,8 +24,13 @@ const ReposLayout: React.FC = () => {
               <div className="flex-none w-[300px] mr-4 border-r border-gray-200">
                 <FileTree />
               </div>
-              <div className="flex-1">
-                <CodeEditor />
+              <div className="flex-1 flex flex-col">
+                <div className="flex-1 mb-1">
+                  <CodeEditor />
+                </div>
+                <div className="h-[300px]">
+                  <GitState repo={selectedRepo} />
+                </div>
               </div>
             </div>
           ) : (
