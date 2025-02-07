@@ -2,24 +2,64 @@
 import React, { useRef, useEffect, useState } from 'react';
 import Editor from '@monaco-editor/react';
 import useRepoData from './hooks/useRepoData';
+import * as monaco from 'monaco-editor';
+import { DiffLine } from './Git/types';
 
 const CodeEditor: React.FC = () => {
   const { selectedFile } = useRepoData();
-  const editorRef = useRef<any>(null); // 使用 useRef 保存 editor 实例
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
+  const decorationsRef = useRef<string[]>([]);
 
-  function handleEditorDidMount(editor: any, monaco: any) {
-    editorRef.current = editor; // 保存 editor 实例
+  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) {
+    editorRef.current = editor;
+
+    // 如果有差异信息，立即应用高亮
+    if (selectedFile?.diffLines) {
+      applyDiffDecorations(selectedFile.diffLines);
+    }
   }
+
+  // 应用差异高亮
+  const applyDiffDecorations = (diffLines: DiffLine[]) => {
+    if (!editorRef.current) return;
+
+    // 清除现有的装饰器
+    decorationsRef.current = editorRef.current.deltaDecorations(
+      decorationsRef.current,
+      [],
+    );
+
+    // 创建新的装饰器
+    const decorations = diffLines.map((line) => ({
+      range: new monaco.Range(line.lineNumber, 1, line.lineNumber, 1),
+      options: {
+        isWholeLine: true,
+        className:
+          line.type === 'add'
+            ? 'bg-green-100'
+            : line.type === 'delete'
+              ? 'bg-red-100'
+              : '',
+      },
+    }));
+
+    // 应用新的装饰器
+    decorationsRef.current = editorRef.current.deltaDecorations(
+      [],
+      decorations,
+    );
+  };
   console.log('CodeEditor render:', selectedFile); // 添加这行
   const [language, setLanguage] = useState('plaintext');
   useEffect(() => {
-    console.log('CodeEditor useEffect:', selectedFile); // 添加这行
-    // 当 selectedFile 改变时，更新编辑器的内容
+    // 当 selectedFile 改变时，更新编辑器的内容和高亮
     if (editorRef.current && selectedFile) {
       editorRef.current.setValue(selectedFile.content || '');
+      if (selectedFile.diffLines) {
+        applyDiffDecorations(selectedFile.diffLines);
+      }
       //根据文件类型设置语言
       const fileExtension = selectedFile.key.split('.').pop()?.toLowerCase();
-      // let language = 'plaintext'; // 默认语言
       if (
         fileExtension === 'js' ||
         fileExtension === 'jsx' ||
@@ -39,8 +79,6 @@ const CodeEditor: React.FC = () => {
       } else if (fileExtension === 'c' || fileExtension === 'cpp') {
         setLanguage('cpp');
       }
-      // 可以根据需要添加更多文件类型和语言的映射
-      // editorRef.current.getModel()?.setLanguage(language);
     }
   }, [selectedFile]);
 

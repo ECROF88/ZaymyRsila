@@ -4,7 +4,7 @@ import { Layout } from 'antd';
 import RepoList from './ReposList';
 import FileTree from './FileTree';
 import CodeEditor from './CodeEditor';
-import GitState from './GitState';
+import GitState from './Git/GitState';
 import useRepoData from './hooks/useRepoData';
 
 const { Sider, Content } = Layout;

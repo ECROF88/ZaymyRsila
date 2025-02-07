@@ -1,8 +1,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { useState, useEffect } from 'react';
-import { FileTreeNode, Repo } from '@/utils/store';
-import { RepoStore } from '@/utils/store';
+import { FileTreeNode, Repo, RepoStore, DiffContent } from '@/utils/store';
+import { ParsedDiff } from '../Git/types';
 // 模拟的仓库数据
 const initialRepos: Repo[] = [
     { id: 1, name: 'my-project' },
@@ -55,6 +54,7 @@ const initialFileTree: FileTreeNode[] = [
 export const useRepoStore = create<RepoStore>()(
     devtools(
         (set) => ({
+            diffContent: null as DiffContent | null,
             repos: initialRepos,
             selectedRepo: initialRepos[0],
             fileTree: initialFileTree,
@@ -63,7 +63,7 @@ export const useRepoStore = create<RepoStore>()(
             setSelectedRepo: (repo) => {
                 set({ selectedRepo: repo });
                 if (repo) {
-                    set((state) => {
+                    set(() => {
                         // 模拟获取文件树
                         const newFileTree = repo.id === 1 ? initialFileTree : [];
                         return {
@@ -104,6 +104,19 @@ export const useRepoStore = create<RepoStore>()(
                     repos: state.repos.filter(repo => repo.id !== id),
                     selectedRepo: state.selectedRepo?.id === id ? null : state.selectedRepo
                 }));
+            },
+
+            setDiffContent: (parsedDiff: ParsedDiff, fileName: string) => {
+                set({
+                    diffContent: { content: parsedDiff.content, fileName },
+                    selectedFile: {
+                        key: `diff-${fileName}`,
+                        title: `Diff: ${fileName}`,
+                        type: 'file',
+                        content: parsedDiff.content,
+                        diffLines: parsedDiff.lines
+                    }
+                });
             }
         }),
         { name: 'repo-store' }
