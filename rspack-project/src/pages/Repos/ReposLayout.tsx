@@ -12,29 +12,25 @@ const ReposLayout: React.FC = () => {
   const { selectedRepo } = useRepoData();
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Sider width={250} theme="light" style={{ overflow: 'auto' }}>
+    <Layout className="h-screen">
+      <Sider width={250} theme="light" className="overflow-auto">
         <RepoList />
       </Sider>
       <Layout>
-        <Content style={{ padding: '12px', overflow: 'auto' }}>
+        <Content className="p-2 overflow-auto min-h-screen">
           {selectedRepo ? (
-            <div style={{ display: 'flex', height: '100%' }}>
-              <div
-                style={{
-                  flex: '0 0 300px',
-                  marginRight: '16px',
-                  borderRight: '1px solid #f0f0f0',
-                }}
-              >
+            <div className="flex h-full">
+              <div className="flex-none w-[300px] mr-4 border-r border-gray-200">
                 <FileTree />
               </div>
-              <div style={{ flex: 1 }}>
+              <div className="flex-1">
                 <CodeEditor />
               </div>
             </div>
           ) : (
-            <div>请选择一个仓库和文件。</div>
+            <div className="flex items-center justify-center h-full text-gray-500">
+              请选择一个仓库和文件。
+            </div>
           )}
         </Content>
       </Layout>

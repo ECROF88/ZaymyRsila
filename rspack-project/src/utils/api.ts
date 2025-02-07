@@ -1,12 +1,29 @@
 import axios from 'axios';
 import { Repo } from './store';
 
-const api = axios.create({
+const authApi = axios.create({
   baseURL: 'http://localhost:3000/api/auth',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json'
   }
+});
+
+const protectedApi = axios.create({
+  baseURL: 'http://localhost:3000/api/protected',
+  timeout: 5000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+});
+
+// token拦截器
+protectedApi.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
 });
 
 export interface LoginData {
@@ -27,17 +44,35 @@ export interface ApiResponse<T = unknown> {
   message: string;
 }
 
+export interface UploadResponse {
+  url: string;
+  fileName: string;
+  fileSize: number;
+}
+
+// 认证相关的API
 export const login = (data: LoginData) => {
-  return api.post<ApiResponse<string>>('/login', data);
+  return authApi.post<ApiResponse<string>>('/login', data);
 };
 
 export const register = (data: RegisterData) => {
-  return api.post<ApiResponse<null>>('/register', data);
+  return authApi.post<ApiResponse<null>>('/register', data);
 };
 
+// 需要认证的API
 export const addRepo = (data: string) => {
-  return api.get<ApiResponse<Repo>>('/addrepo', { params: { data } });
-}
+  return protectedApi.get<ApiResponse<Repo>>('/repo/add', { params: { data } });
+};
 
+export const upload = (file: File) => {
+  const formData = new FormData();
+  formData.append('file', file);
 
-export default api;
+  return protectedApi.post<ApiResponse<UploadResponse>>('/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
+
+export { authApi, protectedApi };

@@ -4,8 +4,8 @@ import Register from './pages/Register';
 import './App.css';
 import Test from './pages/Test';
 import Dashboard from './pages/Dashboard/Dashboard';
-import Home from './pages/Dashboard/home';
-import UserInfo from './pages/Dashboard/Userinfo';
+import Home from './pages/Dashboard/Home';
+import UserInfo from './pages/Dashboard/UserInfo';
 import ReposLayout from './pages/Repos/ReposLayout';
 
 function App() {

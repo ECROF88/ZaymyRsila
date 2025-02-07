@@ -13,10 +13,7 @@ const DashboardLayout: React.FC = () => {
       <Sidebar />
       <Layout>
         <Header />
-        <Content
-          // style={{ margin: '24px 16px', padding: '24px', background: '#fff' }}
-          className="m-6 p-6 bg-auto"
-        >
+        <Content className="m-4 p-4 bg-auto">
           <Outlet /> {/* 渲染匹配的子路由组件 */}
         </Content>
         <Footer />

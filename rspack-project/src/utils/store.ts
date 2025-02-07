@@ -27,5 +27,8 @@ export interface RepoStore {
     addRepo: (repo: Omit<Repo, 'id'>) => void;
     deleteRepo: (id: number) => void;
 }
-
-// export const useAddRepoStore = create()
+export interface UserData {
+    name: string;
+    email: string;
+    avatar?: string
+}
