@@ -17,18 +17,18 @@ const ReposLayout: React.FC = () => {
       <Sider width={250} theme="light" className="overflow-auto">
         <RepoList />
       </Sider>
-      <Layout>
-        <Content className="p-2 overflow-auto min-h-screen">
+      <div className="w-full">
+        <Content className="p-1 overflow-auto">
           {selectedRepo ? (
-            <div className="flex h-full">
-              <div className="flex-none w-[300px] mr-4 border-r border-gray-200">
+            <div className="flex ">
+              <div className="flex-none w-[250px] mr-4 border-r border-gray-200">
                 <FileTree />
               </div>
               <div className="flex-1 flex flex-col">
                 <div className="flex-1 mb-1">
                   <CodeEditor />
                 </div>
-                <div className="h-[300px]">
+                <div className="h-[40svh]">
                   <GitState repo={selectedRepo} />
                 </div>
               </div>
@@ -39,7 +39,7 @@ const ReposLayout: React.FC = () => {
             </div>
           )}
         </Content>
-      </Layout>
+      </div>
     </Layout>
   );
 };

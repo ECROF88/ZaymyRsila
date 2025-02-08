@@ -23,7 +23,7 @@ const CommitList: React.FC<CommitListProps> = ({
   diffContent,
 }) => {
   return (
-    <div className="w-1/2 flex flex-col h-full bg-white rounded-lg shadow-lg border border-blue-100">
+    <div className="w-full flex flex-col h-full bg-white rounded-lg shadow-lg border border-blue-100">
       <div className="p-4 border-b bg-gradient-to-r from-blue-400 to-indigo-400 rounded-t-lg">
         <h2 className="text-xl font-bold text-white">提交历史</h2>
         <div className="text-sm text-blue-100 mt-1">

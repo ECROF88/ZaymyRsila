@@ -53,7 +53,7 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
   };
 
   return (
-    <div className="flex min-h-[500px] h-full gap-4 p-4 bg-gradient-to-br from-blue-50 to-indigo-50">
+    <div className="flex  h-full gap-2 p-2 bg-gradient-to-br from-blue-100 to-indigo-50">
       <CommitList
         commits={commits}
         selectedCommit={selectedCommit}
