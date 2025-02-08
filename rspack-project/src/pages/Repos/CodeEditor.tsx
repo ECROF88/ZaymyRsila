@@ -95,7 +95,7 @@ const CodeEditor: React.FC = () => {
         bracketPairs: true,
         indentation: true,
       },
-      renderValidationDecorations: 'off',
+      renderValidationDecorations: 'off' as const,
     }),
     [],
   );
