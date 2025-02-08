@@ -63,7 +63,7 @@ const CodeEditor: React.FC = () => {
 
     decorationsRef.current = model.deltaDecorations([], decorations);
   };
-  console.log('CodeEditor render:', selectedFile); // 添加这行
+  // console.log('CodeEditor render:', selectedFile); // 添加这行
   const [language, setLanguage] = useState('plaintext');
   useEffect(() => {
     // 当 selectedFile 改变时，更新编辑器的内容和高亮

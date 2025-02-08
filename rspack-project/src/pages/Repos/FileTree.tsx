@@ -2,12 +2,9 @@
 import React, { useEffect } from 'react';
 import { Tree } from 'antd';
 import type { DataNode } from 'antd/es/tree';
-import useRepoData, { FileTreeNode } from './hooks/useRepoData';
-import {
-  FileOutlined,
-  FolderOutlined,
-  FolderOpenOutlined,
-} from '@ant-design/icons';
+import useRepoData from './hooks/useRepoData';
+import { FileOutlined, FolderOutlined } from '@ant-design/icons';
+import { FileTreeNode } from '@/utils/store';
 
 const FileTree: React.FC = () => {
   const { fileTree, selectedFile, setSelectedFile } = useRepoData();
@@ -26,6 +23,7 @@ const FileTree: React.FC = () => {
       console.log('文件数发现仓库变更:', selectedRepo);
     }
   }, [selectedRepo]);
+
   const treeData = convertToTreeData(fileTree);
 
   // 修改 onSelect 函数

@@ -7,12 +7,12 @@
   box-sizing: border-box;
 } */
 
-html, body {
+/* html, body {
   height: 100%;
   width: 100%;
   overflow-x: hidden;
-}
-
+} */
+/* 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -20,7 +20,7 @@ body {
   background-color: #f7fafc;
   display: flex;
   flex-direction: column;
-}
+} */
 
 /* #root {
   min-height: 100vh;
@@ -29,7 +29,7 @@ body {
 } */
 
 /* 动画效果 */
-@keyframes fadeIn {
+/* @keyframes fadeIn {
   from {
     opacity: 0;
     transform: translateY(-10px);
@@ -38,14 +38,14 @@ body {
     opacity: 1;
     transform: translateY(0);
   }
-}
+} */
 
-.fadeIn {
+/* .fadeIn {
   animation: fadeIn 0.5s ease-out forwards;
-}
+} */
 
 /* 渐变背景动画 - 更新渐变色和动画速度 */
-@keyframes gradient {
+/* @keyframes gradient {
   0% {
     background-position: 0% 50%;
   }
@@ -55,13 +55,13 @@ body {
   100% {
     background-position: 0% 50%;
   }
-}
+} */
 
-.animated-gradient {
+/* .animated-gradient {
   background: linear-gradient(-45deg, #4f46e5, #3b82f6, #0ea5e9, #06b6d4);
   background-size: 400% 400%;
   animation: gradient 10s ease infinite;
-}
+} */
 
 /* 输入框激活效果 */
 input:focus {
@@ -76,39 +76,39 @@ button:hover {
 }
 
 /* 卡片阴影效果 */
-.card {
+/* .card {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
   border-radius: 0.5rem;
   transition: all 0.3s ease;
-}
+} */
 
-.card:hover {
+/* .card:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
+} */
 
 /* 自定义滚动条 */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
-}
+} */
 
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 4px;
-}
-
+} */
+/* 
 ::-webkit-scrollbar-thumb {
   background: #cbd5e0;
   border-radius: 4px;
-}
-
+} */
+/* 
 ::-webkit-scrollbar-thumb:hover {
   background: #a0aec0;
-}
+} */
 
 /* 响应式设计辅助类 */
-@media (max-width: 640px) {
+/* @media (max-width: 640px) {
   .container {
     padding: 1rem;
   }
@@ -124,4 +124,4 @@ button:hover {
   .container {
     padding: 3rem;
   }
-}
+} */

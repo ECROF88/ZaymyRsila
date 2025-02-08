@@ -59,12 +59,12 @@ export const useRepoStore = create<RepoStore>()(
             selectedRepo: initialRepos[0],
             fileTree: initialFileTree,
             selectedFile: null,
-
             setSelectedRepo: (repo) => {
                 set({ selectedRepo: repo });
                 if (repo) {
                     set(() => {
                         // 模拟获取文件树
+                        //todo 
                         const newFileTree = repo.id === 1 ? initialFileTree : [];
                         return {
                             fileTree: newFileTree,

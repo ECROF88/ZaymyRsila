@@ -35,7 +35,6 @@ const ReposList: React.FC = () => {
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => setIsModalOpen(true)}
-          className="bg-green-500 hover:bg-green-600"
         >
           添加仓库
         </Button>

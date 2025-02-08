@@ -22,31 +22,48 @@ const CommitList: React.FC<CommitListProps> = ({
   loading,
   diffContent,
 }) => {
+  const handleOnViewInEditor = (change: {
+    file: string;
+    insertions: number;
+    deletions: number;
+  }) => {
+    if (diffContent) {
+      console.log('diffcontent is :', diffContent);
+      console.log('changefile is ', change.file);
+      onViewInEditor(parseDiff(diffContent.diff), change.file);
+    }
+  };
   return (
     <div className="w-full flex flex-col h-full bg-white rounded-lg shadow-lg border border-blue-100">
+      {/* loading图标 */}
+      {loading && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-white/50 absolute inset-0" />
+          <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent z-50" />
+        </div>
+      )}
+
+      {/* 标题框 */}
       <div className="p-4 border-b bg-gradient-to-r from-blue-400 to-indigo-400 rounded-t-lg">
         <h2 className="text-xl font-bold text-white">提交历史</h2>
         <div className="text-sm text-blue-100 mt-1">
           {commits.length} 个提交记录
         </div>
       </div>
+
+      {/* commit列表 */}
       <div className="flex-1 overflow-auto p-4 space-y-3 relative">
-        {loading && (
-          <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
-            <div className="animate-spin rounded-full h-10 w-10 border-4 border-blue-500 border-t-transparent"></div>
-          </div>
-        )}
         {commits.map((commit) => (
           <div
             key={commit.hash}
             className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
               selectedCommit === commit.hash
-                ? 'bg-blue-50 border-blue-300 shadow-md'
+                ? 'bg-blue-50 border-blue-400 shadow-md'
                 : 'hover:bg-indigo-50 border-gray-200 hover:border-indigo-200'
             }`}
             onClick={() => onSelectCommit(commit.hash)}
           >
-            <div className="font-semibold text-gray-800">{commit.message}</div>
+            <div className="font-semibold text-blue-500">{commit.message}</div>
             <div className="text-sm text-gray-500 mt-1">
               {commit.author} · {new Date(commit.date).toLocaleString()}
             </div>
@@ -72,18 +89,12 @@ const CommitList: React.FC<CommitListProps> = ({
                     </span>
                   </div>
                   <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      if (diffContent) {
-                        onViewInEditor(
-                          parseDiff(diffContent.diff),
-                          change.file,
-                        );
-                      }
+                    onClick={() => {
+                      handleOnViewInEditor(change);
                     }}
                     className="ml-2 px-2 py-1 text-xs bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
                   >
-                    在编辑器中查看
+                    在editor中查看
                   </button>
                 </div>
               ))}

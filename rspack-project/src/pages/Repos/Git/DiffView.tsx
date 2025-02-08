@@ -8,7 +8,7 @@ interface DiffViewProps {
 
 const DiffView: React.FC<DiffViewProps> = ({ diffContent, selectedCommit }) => {
   return (
-    <div className="w-full flex flex-col h-full bg-white rounded-lg shadow-lg border border-indigo-100">
+    <div className=" w-full max-w-[30svw] flex flex-col h-full bg-white rounded-lg shadow-lg border border-indigo-100">
       <div className="p-4 border-b bg-gradient-to-r from-indigo-500 to-purple-400 rounded-t-lg">
         <h2 className="text-xl font-bold text-white">差异详情</h2>
         {selectedCommit && (

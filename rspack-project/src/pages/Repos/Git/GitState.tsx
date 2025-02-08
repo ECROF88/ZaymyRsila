@@ -26,6 +26,7 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
   const loadGitHistory = async () => {
     try {
       setLoading(true);
+      // todo()! repo.url to get commitList from backend
       const response = await getGitHistory(repo.id);
       setCommits(response.data.data);
     } catch (error) {
@@ -53,7 +54,7 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
   };
 
   return (
-    <div className="flex  h-full gap-2 p-2 bg-gradient-to-br from-blue-100 to-indigo-50">
+    <div className="flex h-full gap-2 p-2 bg-gradient-to-br from-blue-100 to-indigo-50">
       <CommitList
         commits={commits}
         selectedCommit={selectedCommit}

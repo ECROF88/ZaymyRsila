@@ -6,38 +6,48 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { useNavigate, useLocation } from 'react-router-dom';
-
+interface MenuItem {
+  key: string;
+  icon: React.ReactNode;
+  label: string;
+  path: string;
+}
 const { Sider } = Layout;
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const menuItems = [
-    {
-      key: 'home',
-      icon: <HomeOutlined />,
-      label: '主页',
-      path: '/dashboard/home', // 添加 path 属性
-    },
-    {
-      key: 'user',
-      icon: <UserOutlined />,
-      label: '用户信息',
-      path: '/dashboard/userinfo', // 添加 path 属性
-    },
-    {
-      key: 'repos',
-      icon: <ApartmentOutlined />,
-      label: '我的仓库',
-      path: '/dashboard/repos', // 添加 path 属性
-    },
-  ];
+  const menuItems: MenuItem[] = React.useMemo(
+    () => [
+      {
+        key: 'home',
+        icon: <HomeOutlined />,
+        label: '主页',
+        path: '/dashboard/home',
+      },
+      {
+        key: 'user',
+        icon: <UserOutlined />,
+        label: '用户信息',
+        path: '/dashboard/userinfo',
+      },
+      {
+        key: 'repos',
+        icon: <ApartmentOutlined />,
+        label: '我的仓库',
+        path: '/dashboard/repos',
+      },
+    ],
+    [],
+  );
 
-  //根据当前的路由确定默认选择的key
-  const currentPath = location.pathname;
-  const defaultSelectedKey =
-    menuItems.find((item) => currentPath.startsWith(item.path))?.key || 'home';
+  const defaultSelectedKey = React.useMemo(() => {
+    return (
+      menuItems.find((item) => location.pathname.startsWith(item.path))?.key ||
+      'home'
+    );
+  }, [location.pathname, menuItems]);
 
   const handleMenuClick = (key: string) => {
     const menuItem = menuItems.find((item) => item.key === key);
@@ -53,7 +63,7 @@ const Sidebar: React.FC = () => {
       </div>
       <Menu
         mode="inline"
-        defaultSelectedKeys={[defaultSelectedKey]} // 使用计算出的 key
+        selectedKeys={[defaultSelectedKey]}
         items={menuItems}
         onClick={({ key }) => handleMenuClick(key)}
       />

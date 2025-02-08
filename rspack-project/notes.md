@@ -80,3 +80,6 @@ return () => {
 useContext 和自定义 Hook可以在外部使用
 
 自定义Hook本质是进行功能的封装抽象
+
+                      // 执行按钮自身的事件处理函数，不触发父元素的点击事件。
+                      // e.stopPropagation();
