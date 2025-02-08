@@ -5,6 +5,7 @@ import { PlusOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import AddRepos from './AddRepos';
 import EditRepos from './EdiRepos';
 import DropdownMenu from '../../component/DropdownMenu';
+import styled from 'styled-components';
 const { Title } = Typography;
 const items: MenuProps['items'] = [
   {
@@ -19,8 +20,19 @@ const items: MenuProps['items'] = [
     danger: true,
   },
 ];
-
 const ReposList: React.FC = () => {
+  const StyledButton = styled(Button)`
+    background-color: #42c042ff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #2e7a2eff !important;
+    }
+  `;
   const { repos, selectedRepo, setSelectedRepo } = useRepoData();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -31,13 +43,14 @@ const ReposList: React.FC = () => {
         仓库列表
       </Title>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-        <Button
+        <StyledButton
           type="primary"
           icon={<PlusOutlined />}
           onClick={() => setIsModalOpen(true)}
+          className="dynamicStyle"
         >
           添加仓库
-        </Button>
+        </StyledButton>
       </div>
       <Divider className="my-0" />
       <DropdownMenu
