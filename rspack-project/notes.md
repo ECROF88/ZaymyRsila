@@ -115,3 +115,6 @@ const Child = forwardRef((props, ref) => {
   return <input ref={inputRef} type="text" />;
 });
 ```
+
+    // "build": "cross-env NODE_ENV=production rspack build",
+    // "dev": "cross-env NODE_ENV=development rspack serve",
