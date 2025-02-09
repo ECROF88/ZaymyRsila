@@ -1,5 +1,5 @@
-import React from 'react';
-import { DiffContent } from './types';
+import React from "react";
+import { DiffContent } from "./types";
 
 interface DiffViewProps {
   diffContent: DiffContent | null;

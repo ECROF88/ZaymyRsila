@@ -1,26 +1,10 @@
 // src/components/Repos/CodeEditor.tsx
-import React, { useRef, useEffect, useState } from 'react';
-import Editor from '@monaco-editor/react';
-import useRepoData from './hooks/useRepoData';
-import * as monaco from 'monaco-editor';
-import { DiffLine } from './Git/types';
-import { getLanguageByExtension } from '../../utils/tool';
-// const getLanguageByExtension = (fileKey: string): string => {
-//   const extension = fileKey.split('.').pop()?.toLowerCase();
-//   const mapping: Record<string, string> = {
-//     js: 'javascript',
-//     jsx: 'javascript',
-//     ts: 'javascript',
-//     tsx: 'javascript',
-//     html: 'html',
-//     css: 'css',
-//     json: 'json',
-//     md: 'markdown',
-//     c: 'cpp',
-//     cpp: 'cpp',
-//   };
-//   return mapping[extension || ''] || 'plaintext';
-// };
+import React, { useRef, useEffect, useState } from "react";
+import Editor from "@monaco-editor/react";
+import useRepoData from "./hooks/useRepoData";
+import * as monaco from "monaco-editor";
+import { DiffLine } from "./Git/types";
+import { getLanguageByExtension } from "../../utils/tool";
 
 const CodeEditor: React.FC = () => {
   const { selectedFile } = useRepoData();
@@ -53,22 +37,22 @@ const CodeEditor: React.FC = () => {
       options: {
         isWholeLine: true,
         className:
-          line.type === 'add'
-            ? 'bg-green-100'
-            : line.type === 'delete'
-              ? 'bg-red-100'
-              : '',
+          line.type === "add"
+            ? "bg-green-100"
+            : line.type === "delete"
+              ? "bg-red-100"
+              : "",
       },
     }));
 
     decorationsRef.current = model.deltaDecorations([], decorations);
   };
   // console.log('CodeEditor render:', selectedFile); // 添加这行
-  const [language, setLanguage] = useState('plaintext');
+  const [language, setLanguage] = useState("plaintext");
   useEffect(() => {
     // 当 selectedFile 改变时，更新编辑器的内容和高亮
     if (editorRef.current && selectedFile) {
-      editorRef.current.setValue(selectedFile.content || '');
+      editorRef.current.setValue(selectedFile.content || "");
       if (selectedFile.diffLines) {
         applyDiffDecorations(selectedFile.diffLines);
       }
@@ -84,18 +68,18 @@ const CodeEditor: React.FC = () => {
       lineHeight: 1.5,
       folding: true,
       foldingHighlight: true,
-      showFoldingControls: 'always' as const,
+      showFoldingControls: "always" as const,
       smoothScrolling: true,
       scrollBeyondLastLine: false,
-      wordWrap: 'on' as const,
-      lineNumbers: 'on' as const,
-      renderWhitespace: 'selection' as const,
+      wordWrap: "on" as const,
+      lineNumbers: "on" as const,
+      renderWhitespace: "selection" as const,
       bracketPairColorization: { enabled: true },
       guides: {
         bracketPairs: true,
         indentation: true,
       },
-      renderValidationDecorations: 'off' as const,
+      renderValidationDecorations: "off" as const,
     }),
     [],
   );
@@ -106,10 +90,10 @@ const CodeEditor: React.FC = () => {
       language={language}
       options={editorOptions}
       onMount={handleEditorDidMount}
-      value={selectedFile?.content || ''}
+      value={selectedFile?.content || ""}
       onChange={(value) => {
         // 可以添加保存功能
-        console.log('content changed:', value);
+        console.log("content changed:", value);
       }}
     />
   );

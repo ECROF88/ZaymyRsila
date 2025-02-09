@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { getGitHistory, getGitDiff } from '../../../utils/api';
-import { Repo } from '../../../utils/store';
-import useRepoData from '../hooks/useRepoData';
-import { GitCommit, DiffContent, ParsedDiff } from './types';
-import CommitList from './CommitList';
-import DiffView from './DiffView';
+import React, { useEffect, useState } from "react";
+import { getGitHistory, getGitDiff } from "../../../utils/api";
+import { Repo } from "../../../utils/store";
+import useRepoData from "../hooks/useRepoData";
+import { GitCommit, DiffContent, ParsedDiff } from "./types";
+import CommitList from "./CommitList";
+import DiffView from "./DiffView";
 
 interface GitStateProps {
   repo: Repo;
@@ -30,7 +30,7 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
       const response = await getGitHistory(repo.id);
       setCommits(response.data.data);
     } catch (error) {
-      console.error('加载Git历史失败:', error);
+      console.error("加载Git历史失败:", error);
     } finally {
       setLoading(false);
     }
@@ -43,7 +43,7 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
       setLocalDiffContent(response.data.data);
       setSelectedCommit(hash);
     } catch (error) {
-      console.error('加载差异信息失败:', error);
+      console.error("加载差异信息失败:", error);
     } finally {
       setLoading(false);
     }
