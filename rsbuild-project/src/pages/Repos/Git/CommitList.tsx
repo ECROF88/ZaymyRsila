@@ -1,6 +1,6 @@
-import React from 'react';
-import { GitCommit, ParsedDiff } from './types';
-import { parseDiff } from './utils';
+import React from "react";
+import { GitCommit, ParsedDiff } from "./types";
+import { parseDiff } from "./utils";
 
 interface CommitListProps {
   commits: GitCommit[];
@@ -28,13 +28,13 @@ const CommitList: React.FC<CommitListProps> = ({
     deletions: number;
   }) => {
     if (diffContent) {
-      console.log('diffcontent is :', diffContent);
-      console.log('changefile is ', change.file);
+      console.log("diffcontent is :", diffContent);
+      console.log("changefile is ", change.file);
       onViewInEditor(parseDiff(diffContent.diff), change.file);
     }
   };
   return (
-    <div className="w-full flex flex-col h-full bg-white rounded-lg shadow-lg border border-blue-100">
+    <div className="w-full flex flex-col h-full bg-white rounded-lg shadow-lg border border-blue-100 ">
       {/* loading图标 */}
       {loading && (
         <div className="fixed inset-0 flex items-center justify-center z-50">
@@ -58,8 +58,8 @@ const CommitList: React.FC<CommitListProps> = ({
             key={commit.hash}
             className={`p-4 border rounded-lg cursor-pointer transition-all duration-200 ${
               selectedCommit === commit.hash
-                ? 'bg-blue-50 border-blue-400 shadow-md'
-                : 'hover:bg-indigo-50 border-gray-200 hover:border-indigo-200'
+                ? "bg-blue-50 border-blue-400 shadow-md"
+                : "hover:bg-indigo-50 border-gray-200 hover:border-indigo-200"
             }`}
             onClick={() => onSelectCommit(commit.hash)}
           >
