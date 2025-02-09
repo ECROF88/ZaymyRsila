@@ -1,22 +1,23 @@
-import React, { createContext, useContext, useRef, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import dayjs from 'dayjs';
+import React, { createContext, useContext, useRef, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import dayjs from "dayjs";
+import ScrollableTable from "../component/ScrollableTable";
 interface User {
   id: number;
   rid: number;
   content: string;
 }
-const MyContext = createContext('');
+const MyContext = createContext("");
 const initialUsers: User[] = [
-  { id: 1, rid: 3, content: 'a' },
-  { id: 2, rid: 2, content: 'b' },
-  { id: 3, rid: 1, content: dayjs(new Date()).format('MM-DD hh:mm:ss') },
+  { id: 1, rid: 3, content: "a" },
+  { id: 2, rid: 2, content: "b" },
+  { id: 3, rid: 1, content: dayjs(new Date()).format("MM-DD hh:mm:ss") },
 ];
 export default function Test() {
   const navigate = useNavigate();
   const [list, setList] = useState<User[]>(initialUsers);
-  const [type, setType] = useState<'id' | 'rid'>('id');
-  const handleChange = (type: 'id' | 'rid') => {
+  const [type, setType] = useState<"id" | "rid">("id");
+  const handleChange = (type: "id" | "rid") => {
     // console.dir(ref1.current);
     console.log(type);
     setType(type);
@@ -26,16 +27,16 @@ export default function Test() {
   const sortlist = (data: User[], sortby: string) => {
     return data.sort((a, b) => {
       let compareValue = 0;
-      if (sortby === 'id') {
+      if (sortby === "id") {
         compareValue = a.id - b.id;
-      } else if (sortby === 'rid') {
+      } else if (sortby === "rid") {
         compareValue = a.rid - b.rid;
       }
       return compareValue;
     });
   };
 
-  const [addcon, setAddcon] = useState('');
+  const [addcon, setAddcon] = useState("");
   const additem = () => {
     const newUser: User = {
       id: list.length + 1,
@@ -43,7 +44,7 @@ export default function Test() {
       content: addcon,
     };
     setList(sortlist([...list, newUser], type));
-    setAddcon('');
+    setAddcon("");
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -52,13 +53,14 @@ export default function Test() {
     setList(list.filter((item) => item.id !== id));
   };
   const inputRef = useRef<HTMLInputElement>(null);
-  const [msg, setMsg] = useState('');
+  const [msg, setMsg] = useState("");
   const getSonMsg = (msg: string) => {
     setMsg(msg);
   };
 
   return (
     <div className="p-4">
+      <ScrollableTable />
       <div>
         <input
           id="addcon"
@@ -73,14 +75,14 @@ export default function Test() {
       </div>
       <div className="mb-4 space-x-4">
         <button
-          className={`px-4 py-2 rounded ${type === 'id' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-          onClick={() => handleChange('id')}
+          className={`px-4 py-2 rounded ${type === "id" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+          onClick={() => handleChange("id")}
         >
           按ID排序
         </button>
         <button
-          className={`px-4 py-2 rounded ${type === 'rid' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
-          onClick={() => handleChange('rid')}
+          className={`px-4 py-2 rounded ${type === "rid" ? "bg-blue-500 text-white" : "bg-gray-200"}`}
+          onClick={() => handleChange("rid")}
         >
           按RID排序
         </button>
@@ -122,7 +124,7 @@ function Son({ data, aFun }) {
           <li key={n.id}>{n.content}</li>
         ))}
         <li>1</li>
-        <button className="bg-red-900" onClick={() => aFun('asdsadasd')}>
+        <button className="bg-red-900" onClick={() => aFun("asdsadasd")}>
           click
         </button>
       </ul>
@@ -140,11 +142,11 @@ function Son3() {
 }
 
 function Form() {
-  const [firstName, setFirstName] = useState('Taylor');
-  const [lastName, setLastName] = useState('Swift');
+  const [firstName, setFirstName] = useState("111");
+  const [lastName, setLastName] = useState("222");
 
-  // ✅ 非常好：在渲染期间进行计算
-  const fullName = firstName + ' ' + lastName;
+  // ✅
+  const fullName = firstName + " " + lastName;
 
   const handleFirstNameChange = (e: {
     target: { value: React.SetStateAction<string> };
@@ -173,7 +175,7 @@ function Form() {
       <p>Full Name: {fullName}</p>
       <button
         onClick={() => {
-          setLastName('asdas');
+          setLastName("asdas");
         }}
       >
         click
@@ -199,7 +201,7 @@ function Hook() {
   const navigate = useNavigate();
   const gotodash = () => {
     // const navigate = useNavigate();
-    navigate('/dashboard');
+    navigate("/dashboard");
   };
   const { value, toggle } = useToggle();
   return (
