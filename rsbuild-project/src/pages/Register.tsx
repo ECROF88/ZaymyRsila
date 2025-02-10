@@ -1,23 +1,17 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 // import clsx from 'clsx';
-import { register } from '../utils/api';
-
-interface RegisterData {
-  username: string;
-  password: string;
-  confirmPassword: string;
-  email: string;
-}
+import { register } from "../utils/api";
+import { RegisterData } from "../utils/api";
 
 export default function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState<RegisterData>({
-    username: '',
-    password: '',
-    confirmPassword: '',
-    email: '',
+    username: "",
+    password: "",
+    confirmPassword: "",
+    email: "",
   });
 
   const [errors, setErrors] = useState<{
@@ -25,32 +19,32 @@ export default function Register() {
     email: string;
     username: string;
   }>({
-    general: '',
-    email: '',
-    username: '',
+    general: "",
+    email: "",
+    username: "",
   });
 
-  // 邮箱验证函数
+  // 邮箱校验
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
 
-  // 用户名校验函数
+  // 用户名校验
   const validateUsername = (username: string) => {
     if (username.length < 3) {
-      return '用户名至少为 3 个字符';
+      return "用户名至少为 3 个字符";
     }
-    return '';
+    return "";
   };
 
-  // 提交表单
+  // 提交
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // 进行简单的表单校验
+    // 表单校验
     if (formData.password !== formData.confirmPassword) {
-      setErrors({ ...errors, general: '两次输入的密码不一致' });
+      setErrors({ ...errors, general: "两次输入的密码不一致" });
       return;
     }
 
@@ -61,16 +55,15 @@ export default function Register() {
     try {
       const response = await register(formData);
       if (response.data.code === 0) {
-        navigate('/login');
+        navigate("/login");
       } else {
         setErrors({ ...errors, general: response.data.message });
       }
     } catch {
-      setErrors({ ...errors, general: '注册失败，请稍后重试' });
+      setErrors({ ...errors, general: "注册失败，请稍后重试" });
     }
   };
 
-  // 处理输入变化
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({
@@ -78,18 +71,17 @@ export default function Register() {
       [name]: value,
     });
 
-    // 动态校验
-    if (name === 'email') {
+    if (name === "email") {
       if (!value) {
-        setErrors({ ...errors, email: '邮箱不能为空' });
+        setErrors({ ...errors, email: "邮箱不能为空" });
       } else if (!validateEmail(value)) {
-        setErrors({ ...errors, email: '请输入有效的邮箱地址' });
+        setErrors({ ...errors, email: "请输入有效的邮箱地址" });
       } else {
-        setErrors({ ...errors, email: '' });
+        setErrors({ ...errors, email: "" });
       }
     }
 
-    if (name === 'username') {
+    if (name === "username") {
       const usernameError = validateUsername(value);
       setErrors({ ...errors, username: usernameError });
     }
@@ -103,7 +95,7 @@ export default function Register() {
             注册新账号
           </h2>
           <p className="mt-4 text-center text-base text-gray-600">
-            或者{' '}
+            或者{" "}
             <Link
               to="/login"
               className="font-medium text-blue-600 hover:text-blue-500"
@@ -165,7 +157,7 @@ export default function Register() {
                 placeholder="请输入邮箱"
                 value={formData.email}
                 onChange={handleChange}
-                onBlur={() => setErrors({ ...errors, email: '' })}
+                onBlur={() => setErrors({ ...errors, email: "" })}
               ></input>
               {/* {errors.email && (
                 <p className="mt-2 text-base text-red-500">{errors.email}</p>

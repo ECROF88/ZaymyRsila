@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import "./index.css";
+const PAGE_SIZE = 5; // 每页加载的数据量
 
 const generateMockData = (startIndex: number, count: number) => {
   return Array.from({ length: count }, (_, index) => {
@@ -6,102 +8,136 @@ const generateMockData = (startIndex: number, count: number) => {
     return {
       id: `${id}`,
       name: `Item ${id}`,
-      description: `Description for Item ${id}`,
-      date: `2023-${String(Math.floor(Math.random() * 12) + 1).padStart(2, "0")}-${String(Math.floor(Math.random() * 28) + 1).padStart(2, "0")}`,
-      status: ["Pending", "Processing", "Completed"][
-        Math.floor(Math.random() * 3)
-      ],
     };
   });
 };
 
-const initialData = generateMockData(0, 20); // 初始加载 20 条数据
-const itemsPerPage = 20; // 每次滚动加载 20 条数据
+interface TableItem {
+  id: string;
+  name: string;
+}
 
 const ScrollableTable = () => {
-  const [data, setData] = useState(initialData);
+  const [data, setData] = useState<TableItem[]>([]);
+  const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const tableContainerRef = useRef<HTMLDivElement>(null); // 用于获取表格容器 DOM 元素的 Ref
-  const [nextStartIndex, setNextStartIndex] = useState(initialData.length);
-  const loadMoreTrigger = useRef<HTMLElement>(null);
-  const loadMoreData = () => {
-    if (loading) return; // 防止重复加载
+  const [hasMore, setHasMore] = useState(true); // 是否还有更多数据
+  const [isAnimating, setIsAnimating] = useState(false);
+  const loadingRef = useRef<HTMLDivElement>(null); // Ref for the loading indicator div
+  const scrollContainerRef = useRef<HTMLDivElement>(null); // Ref for the scrollable container
+
+  // 模拟 API 数据获取 (使用提供的 generateMockData)
+  const fetchData = useCallback(async (currentPage: number) => {
     setLoading(true);
-    setTimeout(() => {
-      // 模拟异步加载数据
-      const newData = generateMockData(nextStartIndex, itemsPerPage);
-      setData((prevData) => [...prevData, ...newData]); // 追加新数据
-      setNextStartIndex((prevStartIndex) => prevStartIndex + itemsPerPage);
+    setIsAnimating(true); // Start animation when loading starts
+
+    try {
+      // 模拟延迟
+      await new Promise((resolve) => setTimeout(resolve, 2500));
+      const startIndex = (currentPage - 1) * PAGE_SIZE;
+      const newData = generateMockData(startIndex, PAGE_SIZE);
+      if (newData.length === 0) {
+        setHasMore(false); // 没有更多数据了
+      } else {
+        setData((prevData) => [...prevData, ...newData]);
+      }
+    } catch (error) {
+      console.error("Failed to load data:", error);
+      setHasMore(false); // In case of error, prevent further loading
+    } finally {
       setLoading(false);
-    }, 1000); // 模拟 1 秒加载延迟
-  };
-
-  const handleScroll = () => {
-    const container = tableContainerRef.current;
-    if (!container || loading) return;
-
-    // 滚动到底部的判断条件：
-    // 容器滚动高度 + 容器可视高度 >= 容器总高度 - 距离底部阈值
-    const scrollHeight = container.scrollHeight;
-    const scrollTop = container.scrollTop;
-    const clientHeight = container.clientHeight;
-    const scrollThreshold = 50; // 距离底部 50px 时触发加载
-
-    if (scrollTop + clientHeight >= scrollHeight - scrollThreshold) {
-      loadMoreData();
+      setIsAnimating(false); // End animation when loading finishes
     }
-  };
+  }, []);
 
   useEffect(() => {
-    const container = tableContainerRef.current;
-    if (container) {
-      container.addEventListener("scroll", handleScroll);
-      return () => {
-        container.removeEventListener("scroll", handleScroll); // 组件卸载时移除监听
-      };
+    // 初始加载第一页数据
+    fetchData(page);
+    setPage((prevPage) => prevPage + 1);
+  }, []); // 依赖为空数组，只在组件挂载时执行一次
+
+  const loadMoreData = useCallback(() => {
+    if (loading || !hasMore) {
+      return; // 避免重复加载或没有更多数据时加载
     }
-  }, [loading]); // 监听 loading 状态变化，防止重复绑定事件
+    fetchData(page);
+    setPage((prevPage) => prevPage + 1);
+  }, [fetchData, loading, hasMore, page]);
+
+  useEffect(() => {
+    // 使用 IntersectionObserver 观察 loadingRef 元素
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // 当 loading 元素进入视口时
+        if (entries[0].isIntersecting && !loading && hasMore) {
+          loadMoreData();
+        }
+      },
+      {
+        root: scrollContainerRef.current, // 将滚动容器作为根元素
+        threshold: 1.0, // 完全可见时触发
+      },
+    );
+
+    if (loadingRef.current) {
+      observer.observe(loadingRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [loadMoreData, loading, hasMore]);
 
   return (
-    <div
-      className="table-container scrollbar-thin scrollbar-thumb-blue-500 scrollbar-track-gray-200"
-      ref={tableContainerRef}
-      style={{ maxHeight: "400px", overflowY: "auto" }}
-    >
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.description}</td>
-              <td>{item.date}</td>
-              <td>{item.status}</td>
-            </tr>
-          ))}
-          <tr ref={loadMoreTrigger}>
-            <td colSpan={5} style={{ textAlign: "center" }}>
-              加载更多...
-            </td>
-          </tr>
-          {/* {loading && (
+    <div className="max-w-screen-md mx-auto mt-8 border border-gray-300 rounded-md overflow-hidden relative">
+      <div
+        ref={scrollContainerRef}
+        className="max-h-[400px] overflow-y-auto" // Added scrollable container with max-height and scroll
+      >
+        <table className="w-full table-auto border-collapse">
+          <thead className="bg-gray-100 sticky top-0">
+            {" "}
+            {/* sticky top for header */}
             <tr>
-              <td className="text-center p-4 text-blue-500 text-lg" colSpan={5}>
-                Loading...
-              </td>
+              <th className="border border-gray-300 px-4 py-2 text-left font-bold">
+                ID
+              </th>
+              <th className="border border-gray-300 px-4 py-2 text-left font-bold">
+                Name
+              </th>
             </tr>
-          )} */}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((item) => (
+              <tr key={item.id}>
+                <td className="border border-gray-300 px-4 py-2 ">{item.id}</td>
+                <td className="border border-gray-300 px-4 py-2">
+                  {item.name}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div
+          ref={loadingRef}
+          id="loading-indicator-container"
+          className="text-center py-2 relative overflow-hidden"
+        >
+          {loading && (
+            <div className="">
+              <div
+                className={`text-gray-600 pt-2 ${isAnimating ? "animate-feedback" : ""}`}
+              >
+                加载中...
+              </div>
+            </div>
+          )}
+          {!hasMore && data.length > 0 && (
+            <div className="text-gray-600 pt-2">没有更多数据了</div>
+          )}
+          {!hasMore && data.length === 0 && (
+            <div className="text-gray-600 pt-2">暂无数据</div>
+          )}
+        </div>
+      </div>
     </div>
   );
 };
