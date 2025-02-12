@@ -10,11 +10,12 @@
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
-    "@tailwindcss/postcss": "^4.0.5",
+    "@tailwindcss/postcss": "^4.0.6",
     "antd": "^5.23.4",
     "axios": "^1.7.9",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.13",
+    "immer": "^10.1.1",
     "postcss": "^8.5.1",
     "postcss-loader": "^8.1.1",
     "react": "^19.0.0",
@@ -22,7 +23,7 @@
     "react-router-dom": "^7.1.5",
     "styled-components": "^6.1.15",
     "tailwind-scrollbar": "^4.0.0",
-    "tailwindcss": "^4.0.5",
+    "tailwindcss": "^4.0.6",
     "tailwindcss-animated": "^2.0.0",
     "zustand": "^5.0.3"
   },

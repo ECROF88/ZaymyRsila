@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 // import clsx from 'clsx';
-import { register } from "../utils/api";
-import { RegisterData } from "../utils/api";
+import { register } from "../../utils/api";
+import { RegisterData } from "../../utils/api";
 
 export default function Register() {
   const navigate = useNavigate();

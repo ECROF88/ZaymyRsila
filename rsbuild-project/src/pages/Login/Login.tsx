@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { login, LoginData } from "../utils/api";
+import { login, LoginData } from "../../utils/api";
 // import { useStore } from 'zustand';
 // import { useStore } from '../utils/store';
 
@@ -115,7 +115,7 @@ export default function Login() {
             >
               登录
             </button>
-            <button onClick={() => navigate("/test")}>Test</button>
+            <button onClick={() => navigate("/test2")}>Test2</button>
           </div>
         </form>
       </div>

@@ -1,5 +1,5 @@
 /* 全局重置和基础样式 */
-
+@import "tailwindcss";
 /* 
 * {
   margin: 0;

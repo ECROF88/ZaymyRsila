@@ -110,6 +110,10 @@ export default function Test() {
         <Son3 />
       </MyContext.Provider>
       <Form />
+      <div className="bg-blue-500 p-4 group">
+        <button className="text-white">Click me</button>
+        <button className="text-red-200 group-hover:hidden">Click me</button>
+      </div>
     </div>
   );
 }

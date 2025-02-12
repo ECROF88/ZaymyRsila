@@ -1,4 +1,4 @@
-// src/components/Repos/ReposLayout.tsx
+// // src/components/Repos/ReposLayout.tsx
 import React from 'react';
 import { Layout } from 'antd';
 import RepoList from './ReposList';
@@ -6,10 +6,10 @@ import FileTree from './FileTree';
 import CodeEditor from './CodeEditor';
 import GitState from './Git/GitState';
 import useRepoData from './hooks/useRepoData';
+import Sider from 'antd/es/layout/Sider';
+import { Content } from 'antd/es/layout/layout';
 
-const { Sider, Content } = Layout;
-
-const ReposLayout: React.FC = () => {
+function ReposLayout() {
   const { selectedRepo } = useRepoData();
 
   return (
@@ -41,7 +41,8 @@ const ReposLayout: React.FC = () => {
         </Content>
       </div>
     </Layout>
+    // <></>
   );
-};
+}
 
 export default ReposLayout;

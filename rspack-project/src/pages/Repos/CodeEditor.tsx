@@ -5,24 +5,8 @@ import useRepoData from './hooks/useRepoData';
 import * as monaco from 'monaco-editor';
 import { DiffLine } from './Git/types';
 import { getLanguageByExtension } from '../../utils/tool';
-// const getLanguageByExtension = (fileKey: string): string => {
-//   const extension = fileKey.split('.').pop()?.toLowerCase();
-//   const mapping: Record<string, string> = {
-//     js: 'javascript',
-//     jsx: 'javascript',
-//     ts: 'javascript',
-//     tsx: 'javascript',
-//     html: 'html',
-//     css: 'css',
-//     json: 'json',
-//     md: 'markdown',
-//     c: 'cpp',
-//     cpp: 'cpp',
-//   };
-//   return mapping[extension || ''] || 'plaintext';
-// };
 
-const CodeEditor: React.FC = () => {
+function CodeEditor() {
   const { selectedFile } = useRepoData();
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const decorationsRef = useRef<string[]>([]);
@@ -113,6 +97,6 @@ const CodeEditor: React.FC = () => {
       }}
     />
   );
-};
+}
 
 export default CodeEditor;

@@ -2,12 +2,14 @@ import React, { createContext, useContext, useRef, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import dayjs from "dayjs";
 import ScrollableTable from "../component/ScrollableTable";
+import { useCatStore } from "@/utils/store";
 interface User {
   id: number;
   rid: number;
   content: string;
 }
 const MyContext = createContext("");
+
 const initialUsers: User[] = [
   { id: 1, rid: 3, content: "a" },
   { id: 2, rid: 2, content: "b" },
@@ -57,7 +59,8 @@ export default function Test() {
   const getSonMsg = (msg: string) => {
     setMsg(msg);
   };
-
+  const bigCats = useCatStore.use.cats;
+  const b = bigCats().bigCats;
   return (
     <div className="p-4">
       {/* <ScrollableTable /> */}
@@ -106,7 +109,11 @@ export default function Test() {
           </li>
         ))}
       </ul>
-
+      <div>
+        <p>
+          bigcat:{b}
+        </p>
+      </div>
       <Son data={initialUsers} aFun={getSonMsg} />
       <Son2 msg={msg} />
       <MyContext.Provider value={msg}>
@@ -314,11 +321,10 @@ function Game() {
     return (
       <li key={move} className="mb-2">
         <button
-          className={`px-4 py-2 rounded ${
-            move === currentMove
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 hover:bg-gray-300"
-          }`}
+          className={`px-4 py-2 rounded ${move === currentMove
+            ? "bg-blue-500 text-white"
+            : "bg-gray-200 hover:bg-gray-300"
+            }`}
           onClick={() => jumpTo(move)}
         >
           {description}
