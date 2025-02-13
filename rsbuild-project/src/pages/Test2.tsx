@@ -1,68 +1,65 @@
-import { forwardRef, useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
 export default function Test2() {
-  const [headline, setHeadline] = useState("This is headline");
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const buttonRef2 = useRef<HTMLButtonElement>(null);
-  const MybuttionClick1 = () => {
-    console.log("1");
+  const childRef = useRef(null);
+
+  const Reset = () => {
+    childRef.current?.reset();
   };
-  const MybuttionClick2 = () => {
-    console.log("2");
-  };
+
   return (
-    <div>
-      <h1>{headline}</h1>
+    <>
+      <div className="flex-col justify-around gap-1">
+        <h1 className="text-lg text-pink-300">This is father</h1>
+      </div>
+      <Child ref={childRef} />
+      <button onClick={Reset}>ClickToReset</button>
       <button
+        type="button"
         onClick={() => {
-          setHeadline("Test2");
+          console.log(childRef.current);
         }}
       >
-        change headline
+        showRef
       </button>
-      <MyButton
-        ref={buttonRef}
-        on={MybuttionClick1}
-        name="button without forward"
-      />
-      <MyButton2
-        ref={buttonRef2}
-        on={MybuttionClick2}
-        name="button with forward"
-      />
+    </>
+  );
+}
+
+interface ChildRef {
+  count: number;
+  reset: (value: number) => void;
+}
+
+interface ChildProps {
+  ref?: React.Ref<ChildRef>;
+}
+
+const Child = (props: ChildProps) => {
+  const [count, setCount] = useState(0);
+  useImperativeHandle(
+    props.ref,
+    () => {
+      console.log("执行回调");
+      return {
+        count,
+        reset: () => setCount(0),
+      };
+    },
+    [count],
+  );
+
+  return (
+    <div className="flex bg-amber-50 ">
+      <div className="my-4 border-4 border-amber-400"></div>
+      <p className="text-2xl text-blue-200 py-4 px-4 ">count is: {count}</p>
+      <button
+        onClick={() => {
+          setCount((prev) => prev + 1);
+        }}
+      >
+        click to add
+      </button>
     </div>
   );
-}
-type MyButtonProps = {
-  name: string;
-  on: () => void;
-  ref?: React.Ref<HTMLButtonElement>;
-} & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "ref">;
-
-function MyButton({ ref, ...props }: MyButtonProps) {
-  const { on, name } = props;
-  return (
-    <button ref={ref} onClick={on}>
-      {name}
-    </button>
-  );
-}
-
-// type MyButtonProps = {
-//   name: string;
-//   on: () => void;
-// } & React.ButtonHTMLAttributes<HTMLButtonElement>;
-
-const MyButton2 = forwardRef<HTMLButtonElement, MyButtonProps>((props, ref) => {
-  const { name, on } = props;
-  return (
-    <button
-      ref={ref}
-      onClick={on}
-      className="px-2 py-1 justify-around rounded-2xl  bg-blue-500 hover:bg-blue-600 text-base"
-    >
-      {name}
-    </button>
-  );
-});
-MyButton2.displayName = "MyButton2";
+};

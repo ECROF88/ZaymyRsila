@@ -114,6 +114,10 @@ const count = useRef(0);  // 有记忆功能，组件重新渲染时保持值
 // 获取值：count.current
 // 修改值：count.current += 1（不会触发重新渲染）
 ```
+1. 组件rerender期间 useRef不会被重复初始化
+2. useEffect 检测不到ref的current更改的变化而触发渲染，
+   但是每次组件重新渲染的时候都会根据依赖项是否变化
+   来决定是否触发回调函数
 
 ref的使用方式：
 ```jsx
