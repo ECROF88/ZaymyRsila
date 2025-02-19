@@ -150,6 +150,12 @@ const Child = forwardRef((props, ref) => {
   return <input ref={inputRef} type="text" />;
 });
 ```
+对于`useImperativeHandle`:
+1. 如果依赖项为空数组，则只在第一次渲染时候才执行useImperativeHandle中的回调函数
+2. 如果没有依赖项，则每次都会执行
+3. 有依赖项会根据依赖项是否变化
+
+
 
 #### 其他Hook说明
 - `useContext`：可在外部使用的上下文
@@ -161,3 +167,6 @@ const Child = forwardRef((props, ref) => {
 ```javascript
 e.stopPropagation();  // 阻止事件向父元素传播
 ```
+
+useLayoutEffect 
+同步执行，阻塞浏览器的绘制

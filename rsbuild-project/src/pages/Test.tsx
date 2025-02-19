@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useRef, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router";
 import dayjs from "dayjs";
 import ScrollableTable from "../component/ScrollableTable";
 import { useCatStore } from "@/utils/store";

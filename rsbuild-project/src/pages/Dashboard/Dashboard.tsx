@@ -1,15 +1,15 @@
-import React from 'react';
-import { Layout } from 'antd';
-import { Outlet } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import Header from './Header';
-import Footer from './Footer';
+import React from "react";
+import { Layout } from "antd";
+import { Outlet } from "react-router";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
+import Footer from "./Footer";
 
 const { Content } = Layout;
 
 const DashboardLayout: React.FC = () => {
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: "100vh" }}>
       <Sidebar />
       <Layout>
         <Header />

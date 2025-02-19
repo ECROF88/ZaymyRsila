@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router";
+import { Link } from "react-router";
 // import clsx from 'clsx';
 import { register } from "../../utils/api";
 import { RegisterData } from "../../utils/api";

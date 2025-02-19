@@ -1,15 +1,15 @@
-import { useUserStore } from './hooks/useUserData';
-import useRepoData from '../Repos/hooks/useRepoData';
-import { Row, Col, Button, Avatar } from 'antd';
-import Card from '../../component/Card';
+import { useUserStore } from "./hooks/useUserData";
+import useRepoData from "../Repos/hooks/useRepoData";
+import { Row, Col, Button, Avatar } from "antd";
+import Card from "../../component/Card";
 import {
   FolderOutlined,
   StarOutlined,
   TeamOutlined,
   PlusOutlined,
-} from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import NumberShow from '../../component/NumberShow';
+} from "@ant-design/icons";
+import { useNavigate } from "react-router";
+import NumberShow from "../../component/NumberShow";
 
 function Home() {
   const { userData } = useUserStore();
@@ -32,7 +32,7 @@ function Home() {
       {/* 统计区域 */}
       <Row gutter={16} className="mb-6">
         <Col span={8}>
-          <Card bodyStyle={{ padding: '16px' }}>
+          <Card bodyStyle={{ padding: "16px" }}>
             <NumberShow
               title="仓库总数"
               value={repos?.length || 0}
@@ -41,7 +41,7 @@ function Home() {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bodyStyle={{ padding: '16px' }}>
+          <Card bodyStyle={{ padding: "16px" }}>
             <NumberShow
               title="代码提交"
               value={123}
@@ -50,7 +50,7 @@ function Home() {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bodyStyle={{ padding: '16px' }}>
+          <Card bodyStyle={{ padding: "16px" }}>
             <NumberShow title="协作者" value={5} prefix={<TeamOutlined />} />
           </Card>
         </Col>
@@ -62,13 +62,13 @@ function Home() {
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => navigate('/dashboard/repos')}
+            onClick={() => navigate("/dashboard/repos")}
           >
             添加仓库
           </Button>
           <Button
             icon={<TeamOutlined />}
-            onClick={() => navigate('/dashboard/userinfo')}
+            onClick={() => navigate("/dashboard/userinfo")}
           >
             个人信息
           </Button>

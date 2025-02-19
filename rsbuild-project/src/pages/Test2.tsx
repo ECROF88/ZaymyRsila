@@ -1,65 +1,72 @@
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, { useCallback, useState, useTransition } from "react";
+
+const tabs = [
+  { label: "Home", value: "home" },
+  { label: "Movie", value: "movie" },
+  { label: "About", value: "about" },
+];
 
 export default function Test2() {
-  const childRef = useRef(null);
+  const [activeTab, setActiveTab] = useState("home");
+  const [isPending, setTrans] = useTransition();
+  const hanlderBtnClick = useCallback((tab: string) => {
+    setTrans(() => setActiveTab(tab));
+  }, []);
+  return (
+    <div className="text-center mt-10">
+      <div className="mb-6">
+        {tabs.map((tab) => (
+          <TabButton
+            key={tab.value}
+            label={tab.label}
+            isActive={activeTab === tab.value}
+            onClick={() => hanlderBtnClick(tab.value)}
+          />
+        ))}
+      </div>
 
-  const Reset = () => {
-    childRef.current?.reset();
-  };
+      {/* 内容显示 */}
+      {isPending && <p>is pending</p>}
+      <div className="text-xl font-bold">
+        {activeTab === "home" && "Welcome to Home!"}
+        {activeTab === "movie" && <MovieTab />}
+        {activeTab === "about" && "Welcome to About!"}
+      </div>
+    </div>
+  );
+}
 
+interface TabButtonProps {
+  label: string;
+  isActive: boolean;
+  onClick: () => void;
+}
+
+const TabButton: React.FC<TabButtonProps> = ({ label, isActive, onClick }) => {
+  return (
+    <button
+      className={`px-12 py-3 mx-2 rounded-lg text-white text-base transition-colors ${
+        isActive ? "bg-orange-400" : "bg-blue-400"
+      }`}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  );
+};
+
+const MovieTab: React.FC = () => {
+  const items = Array(30000)
+    .fill("movie2")
+    .map((item, index) => (
+      <p key={index} className="text-base">
+        {item}
+      </p>
+    ));
   return (
     <>
-      <div className="flex-col justify-around gap-1">
-        <h1 className="text-lg text-pink-300">This is father</h1>
-      </div>
-      <Child ref={childRef} />
-      <button onClick={Reset}>ClickToReset</button>
-      <button
-        type="button"
-        onClick={() => {
-          console.log(childRef.current);
-        }}
-      >
-        showRef
-      </button>
+      <h1>This is MovieTab</h1>
+      {items}
     </>
-  );
-}
-
-interface ChildRef {
-  count: number;
-  reset: (value: number) => void;
-}
-
-interface ChildProps {
-  ref?: React.Ref<ChildRef>;
-}
-
-const Child = (props: ChildProps) => {
-  const [count, setCount] = useState(0);
-  useImperativeHandle(
-    props.ref,
-    () => {
-      console.log("执行回调");
-      return {
-        count,
-        reset: () => setCount(0),
-      };
-    },
-    [count],
-  );
-
-  return (
-    <div className="flex bg-amber-50 ">
-      <div className="my-4 border-4 border-amber-400"></div>
-      <p className="text-2xl text-blue-200 py-4 px-4 ">count is: {count}</p>
-      <button
-        onClick={() => {
-          setCount((prev) => prev + 1);
-        }}
-      >
-        click to add
-      </button>
-    </div>
   );
 };
