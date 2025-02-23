@@ -91,8 +91,8 @@ useEffect(() => {
   // 设置逻辑
   return () => {
     // 清除副作用逻辑
-  };
-}, [dependencies]);
+  }
+}, [dependencies])
 ```
 
 执行顺序：
@@ -110,7 +110,7 @@ useEffect(() => {
 
 #### useRef
 ```javascript
-const count = useRef(0);  // 有记忆功能，组件重新渲染时保持值
+const count = useRef(0) // 有记忆功能，组件重新渲染时保持值
 // 获取值：count.current
 // 修改值：count.current += 1（不会触发重新渲染）
 ```
@@ -129,33 +129,31 @@ ref的使用方式：
 转发ref到子组件：
 ```jsx
 const MyComponent = forwardRef((props, ref) => {
-  return <input type="text" ref={ref} {...props} />;
-});
+  return <input type="text" ref={ref} {...props} />
+})
 ```
 
 使用useImperativeHandle控制暴露给父组件的实例值：
 ```jsx
 const Child = forwardRef((props, ref) => {
-  const inputRef = useRef();
-  
+  const inputRef = useRef()
+
   useImperativeHandle(ref, () => ({
     focus: () => {
-      inputRef.current.focus();
+      inputRef.current.focus()
     },
     clear: () => {
-      inputRef.current.value = '';
+      inputRef.current.value = ''
     },
-  }));
-  
-  return <input ref={inputRef} type="text" />;
-});
+  }))
+
+  return <input ref={inputRef} type="text" />
+})
 ```
 对于`useImperativeHandle`:
 1. 如果依赖项为空数组，则只在第一次渲染时候才执行useImperativeHandle中的回调函数
 2. 如果没有依赖项，则每次都会执行
 3. 有依赖项会根据依赖项是否变化
-
-
 
 #### 其他Hook说明
 - `useContext`：可在外部使用的上下文
@@ -165,8 +163,8 @@ const Child = forwardRef((props, ref) => {
 ### 事件处理
 阻止事件冒泡：
 ```javascript
-e.stopPropagation();  // 阻止事件向父元素传播
+e.stopPropagation() // 阻止事件向父元素传播
 ```
 
-useLayoutEffect 
+useLayoutEffect
 同步执行，阻塞浏览器的绘制

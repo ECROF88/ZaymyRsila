@@ -1,10 +1,10 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react'
 
 interface NumberShow {
-  title: string;
-  value: number | string;
-  prefix?: ReactNode;
-  className?: string;
+  title: string
+  value: number | string
+  prefix?: ReactNode
+  className?: string
 }
 
 export default function NumberShow({
@@ -21,5 +21,5 @@ export default function NumberShow({
         <span className="text-lg font-medium ">{value}</span>
       </div>
     </div>
-  );
+  )
 }

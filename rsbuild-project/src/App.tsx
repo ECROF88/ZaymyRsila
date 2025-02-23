@@ -1,13 +1,13 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router";
-import Login from "./pages/Login/Login";
-import Register from "./pages/Login/Register";
-import "./App.css";
-import Test from "./pages/Test";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Home from "./pages/Dashboard/Home";
-import UserInfo from "./pages/Dashboard/UserInfo";
-import ReposLayout from "./pages/Repos/ReposLayout";
-import Test2 from "./pages/Test2";
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import Dashboard from './pages/Dashboard/Dashboard'
+import Home from './pages/Dashboard/Home'
+import UserInfo from './pages/Dashboard/UserInfo'
+import Login from './pages/Login/Login'
+import Register from './pages/Login/Register'
+import ReposLayout from './pages/Repos/ReposLayout'
+import Test from './pages/Test'
+import Test2 from './pages/Test2'
+import './App.css'
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
         </Routes>
       </div>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App

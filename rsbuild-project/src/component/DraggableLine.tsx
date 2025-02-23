@@ -1,85 +1,87 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 
 // 定义类型
 interface Point {
-  x: number;
-  y: number;
+  x: number
+  y: number
 }
 
 interface ControlPoint extends Point {
-  id: number;
+  id: number
 }
 
 interface Shape {
-  type: "line" | "rect";
-  start: Point;
-  end: Point;
-  controlPoints?: ControlPoint[];
+  type: 'line' | 'rect'
+  start: Point
+  end: Point
+  controlPoints?: ControlPoint[]
 }
 
 interface DragOffset {
-  x: number;
-  y: number;
+  x: number
+  y: number
 }
 
 function DraggableLine() {
   // 固定的起点和终点坐标
-  const start: Point = { x: 50, y: 50 };
-  const end: Point = { x: 250, y: 50 };
-  const [shapes, setShapes] = useState<Shape[]>([]); // 存储多个图形
-  const [isDragging, setIsDragging] = useState(false);
+  const start: Point = { x: 50, y: 50 }
+  const end: Point = { x: 250, y: 50 }
+  const [shapes, setShapes] = useState<Shape[]>([]) // 存储多个图形
+  const [isDragging, setIsDragging] = useState(false)
   // 控制点状态
   const [controlPoints, setControlPoints] = useState<ControlPoint[]>([
     { id: 1, x: 150, y: 100 },
-  ]);
-  const [draggedPoint, setDraggedPoint] = useState<number | null>(null);
-  const [offset, setOffset] = useState<DragOffset>({ x: 0, y: 0 }); // 鼠标点击位置与点坐标的偏移
+  ])
+  const [draggedPoint, setDraggedPoint] = useState<number | null>(null)
+  const [offset, setOffset] = useState<DragOffset>({ x: 0, y: 0 }) // 鼠标点击位置与点坐标的偏移
 
-  const svgRef = useRef<SVGSVGElement>(null); //获取SVG的引用, 为了获取鼠标在SVG中的坐标.
+  const svgRef = useRef<SVGSVGElement>(null) // 获取SVG的引用, 为了获取鼠标在SVG中的坐标.
 
-  //获取鼠标在SVG画布中的坐标
+  // 获取鼠标在SVG画布中的坐标
   const getSVGPoint = useCallback((e: MouseEvent | React.MouseEvent): Point => {
-    const svg = svgRef.current;
+    const svg = svgRef.current
     if (!svg) {
-      return { x: 0, y: 0 };
+      return { x: 0, y: 0 }
     }
-    const point = svg.createSVGPoint();
-    point.x = e.clientX;
-    point.y = e.clientY;
-    const ctm = svg.getScreenCTM();
+    const point = svg.createSVGPoint()
+    point.x = e.clientX
+    point.y = e.clientY
+    const ctm = svg.getScreenCTM()
     if (ctm) {
       // 检查 ctm 是否为 null
-      return point.matrixTransform(ctm.inverse());
+      return point.matrixTransform(ctm.inverse())
     }
-    return point;
-  }, []);
+    return point
+  }, [])
 
   // 鼠标按下：开始拖动
   // 控制点拖动事件
   const handleMouseDown = useCallback(
     (pointId: number, e: React.MouseEvent) => {
-      const svgPoint = getSVGPoint(e);
-      const point = controlPoints.find((p) => p.id === pointId);
-      if (!point) return;
+      const svgPoint = getSVGPoint(e)
+      const point = controlPoints.find(p => p.id === pointId)
+      if (!point)
+        return
 
       setOffset({
         x: svgPoint.x - point.x,
         y: svgPoint.y - point.y,
-      });
-      setIsDragging(true);
-      setDraggedPoint(pointId);
+      })
+      setIsDragging(true)
+      setDraggedPoint(pointId)
     },
     [getSVGPoint, controlPoints],
-  );
+  )
 
   // 鼠标移动：更新控制点坐标
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (!isDragging || draggedPoint === null) return;
-      const svgPoint = getSVGPoint(e);
+      if (!isDragging || draggedPoint === null)
+        return
+      const svgPoint = getSVGPoint(e)
 
-      setControlPoints((prev) =>
-        prev.map((point) =>
+      setControlPoints(prev =>
+        prev.map(point =>
           point.id === draggedPoint
             ? {
                 ...point,
@@ -88,50 +90,51 @@ function DraggableLine() {
               }
             : point,
         ),
-      );
+      )
     },
     [isDragging, draggedPoint, offset, getSVGPoint],
-  );
+  )
 
   // 鼠标释放：停止拖动
   const handleMouseUp = useCallback(() => {
-    if (!isDragging) return; // 如果没有拖动，则直接返回
-    setIsDragging(false);
-    setDraggedPoint(null);
-    setShapes((prevShapes) => [
+    if (!isDragging)
+      return // 如果没有拖动，则直接返回
+    setIsDragging(false)
+    setDraggedPoint(null)
+    setShapes(prevShapes => [
       ...prevShapes,
       {
-        type: "line" as const,
+        type: 'line' as const,
         start,
         end,
-        controlPoints: controlPoints,
+        controlPoints,
       },
-    ]);
-  }, [isDragging, start, end, controlPoints]);
+    ])
+  }, [isDragging, start, end, controlPoints])
 
   // 监听鼠标移动和释放事件 (在整个文档上监听，以防鼠标移出 SVG 区域)
   useEffect(() => {
     if (isDragging) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
+      document.addEventListener('mousemove', handleMouseMove)
+      document.addEventListener('mouseup', handleMouseUp)
 
       return () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
-      };
+        document.removeEventListener('mousemove', handleMouseMove)
+        document.removeEventListener('mouseup', handleMouseUp)
+      }
     }
-  }, [isDragging, handleMouseMove, handleMouseUp]);
+  }, [isDragging, handleMouseMove, handleMouseUp])
 
-  //渲染函数.
+  // 渲染函数.
   return (
     <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
       <svg
         ref={svgRef}
         width="400"
         height="300"
-        style={{ backgroundColor: "#0d1117", border: "1px solid #ddd" }}
+        style={{ backgroundColor: '#0d1117', border: '1px solid #ddd' }}
       >
         {/* 使用二次贝塞尔曲线绘制可变形的线条 */}
         <path
@@ -142,11 +145,11 @@ function DraggableLine() {
         />
 
         {shapes.map((shape, index) => {
-          if (shape.type === "line") {
+          if (shape.type === 'line') {
             const ctrl = shape.controlPoints?.[0] || {
               x: (shape.start.x + shape.end.x) / 2,
               y: shape.start.y - 50,
-            };
+            }
             return (
               <path
                 key={index}
@@ -155,9 +158,9 @@ function DraggableLine() {
                 strokeWidth="2"
                 fill="none"
               />
-            );
+            )
           }
-          return null; // 对于未知类型的图形，返回 null
+          return null // 对于未知类型的图形，返回 null
         })}
 
         {/* 固定的起点 */}
@@ -167,20 +170,20 @@ function DraggableLine() {
         <circle cx={end.x} cy={end.y} r="6" fill="#e74c3c" />
 
         {/* 可拖动的控制点 */}
-        {controlPoints.map((point) => (
+        {controlPoints.map(point => (
           <circle
             key={point.id}
             cx={point.x}
             cy={point.y}
             r="6"
             fill="#2ecc71"
-            style={{ cursor: "move" }}
-            onMouseDown={(e) => handleMouseDown(point.id, e)}
+            style={{ cursor: 'move' }}
+            onMouseDown={e => handleMouseDown(point.id, e)}
           />
         ))}
       </svg>
     </div>
-  );
+  )
 }
 
-export default DraggableLine;
+export default DraggableLine

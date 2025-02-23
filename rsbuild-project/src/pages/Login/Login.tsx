@@ -1,38 +1,41 @@
-import React, { useState } from "react";
-import { useNavigate, Link } from "react-router";
-import { login, LoginData } from "../../utils/api";
+import type { LoginData } from '../../utils/api'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router'
+import { login } from '../../utils/api'
 // import { useStore } from 'zustand';
 // import { useStore } from '../utils/store';
 
 export default function Login() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [formData, setFormData] = useState<LoginData>({
-    identity: "",
-    password: "",
-  });
-  const [error, setError] = useState("");
+    identity: '',
+    password: '',
+  })
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     try {
-      const response = await login(formData);
+      const response = await login(formData)
       if (response.data.code === 0) {
-        localStorage.setItem("token", response.data.data);
-        navigate("/");
-      } else {
-        setError(response.data.message);
+        localStorage.setItem('token', response.data.data)
+        navigate('/')
       }
-    } catch {
-      setError("登录失败，请稍后重试");
+      else {
+        setError(response.data.message)
+      }
     }
-  };
+    catch {
+      setError('登录失败，请稍后重试')
+    }
+  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    });
-  };
+    })
+  }
   return (
     <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 overflow-hidden">
       <div className="relative z-10 w-full max-w-2xl p-12 bg-white/70 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/60">
@@ -41,7 +44,8 @@ export default function Login() {
             登录账户
           </h2>
           <p className="mt-4 text-center text-base text-gray-600">
-            或者{" "}
+            或者
+            {' '}
             <Link
               to="/register"
               className="font-medium text-blue-600 hover:text-blue-500"
@@ -115,10 +119,10 @@ export default function Login() {
             >
               登录
             </button>
-            <button onClick={() => navigate("/test2")}>Test2</button>
+            <button onClick={() => navigate('/test2')}>Test2</button>
           </div>
         </form>
       </div>
     </div>
-  );
+  )
 }

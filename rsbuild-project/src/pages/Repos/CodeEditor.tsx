@@ -1,64 +1,66 @@
+import type { DiffLine } from './Git/types'
+import Editor from '@monaco-editor/react'
+import * as monaco from 'monaco-editor'
 // src/components/Repos/CodeEditor.tsx
-import React, { useRef, useEffect, useState } from "react";
-import Editor from "@monaco-editor/react";
-import useRepoData from "./hooks/useRepoData";
-import * as monaco from "monaco-editor";
-import { DiffLine } from "./Git/types";
-import { getLanguageByExtension } from "../../utils/tool";
+import React, { useEffect, useRef, useState } from 'react'
+import { getLanguageByExtension } from '../../utils/tool'
+import useRepoData from './hooks/useRepoData'
 
 const CodeEditor: React.FC = () => {
-  const { selectedFile } = useRepoData();
-  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
-  const decorationsRef = useRef<string[]>([]);
+  const { selectedFile } = useRepoData()
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const decorationsRef = useRef<string[]>([])
 
   function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) {
-    editorRef.current = editor;
+    editorRef.current = editor
 
     // 如果有差异信息，立即应用高亮
     if (selectedFile?.diffLines) {
-      applyDiffDecorations(selectedFile.diffLines);
+      applyDiffDecorations(selectedFile.diffLines)
     }
   }
 
   // 应用差异高亮
   const applyDiffDecorations = (diffLines: DiffLine[]) => {
-    if (!editorRef.current) return;
+    if (!editorRef.current)
+      return
 
-    const model = editorRef.current.getModel();
-    if (!model) return;
+    const model = editorRef.current.getModel()
+    if (!model)
+      return
 
     if (decorationsRef.current.length) {
       /// oldDecorations: string[], newDecorations: IModelDeltaDecoration[]
-      model.deltaDecorations(decorationsRef.current, []);
+      model.deltaDecorations(decorationsRef.current, [])
     }
     // 创建新的装饰器
-    const decorations = diffLines.map((line) => ({
+    const decorations = diffLines.map(line => ({
       range: new monaco.Range(line.lineNumber, 1, line.lineNumber, 1),
       options: {
         isWholeLine: true,
         className:
-          line.type === "add"
-            ? "bg-green-100"
-            : line.type === "delete"
-              ? "bg-red-100"
-              : "",
+          line.type === 'add'
+            ? 'bg-green-100'
+            : line.type === 'delete'
+              ? 'bg-red-100'
+              : '',
       },
-    }));
+    }))
 
-    decorationsRef.current = model.deltaDecorations([], decorations);
-  };
+    decorationsRef.current = model.deltaDecorations([], decorations)
+  }
   // console.log('CodeEditor render:', selectedFile); // 添加这行
-  const [language, setLanguage] = useState("plaintext");
+  const [language, setLanguage] = useState('plaintext')
   useEffect(() => {
     // 当 selectedFile 改变时，更新编辑器的内容和高亮
     if (editorRef.current && selectedFile) {
-      editorRef.current.setValue(selectedFile.content || "");
+      editorRef.current.setValue(selectedFile.content || '')
       if (selectedFile.diffLines) {
-        applyDiffDecorations(selectedFile.diffLines);
+        applyDiffDecorations(selectedFile.diffLines)
       }
-      setLanguage(getLanguageByExtension(selectedFile.key));
+      setLanguage(getLanguageByExtension(selectedFile.key))
     }
-  }, [selectedFile]);
+  }, [selectedFile])
   const editorOptions = React.useMemo(
     () => ({
       minimap: { enabled: false },
@@ -68,21 +70,21 @@ const CodeEditor: React.FC = () => {
       lineHeight: 1.5,
       folding: true,
       foldingHighlight: true,
-      showFoldingControls: "always" as const,
+      showFoldingControls: 'always' as const,
       smoothScrolling: true,
       scrollBeyondLastLine: false,
-      wordWrap: "on" as const,
-      lineNumbers: "on" as const,
-      renderWhitespace: "selection" as const,
+      wordWrap: 'on' as const,
+      lineNumbers: 'on' as const,
+      renderWhitespace: 'selection' as const,
       bracketPairColorization: { enabled: true },
       guides: {
         bracketPairs: true,
         indentation: true,
       },
-      renderValidationDecorations: "off" as const,
+      renderValidationDecorations: 'off' as const,
     }),
     [],
-  );
+  )
   return (
     <Editor
       className="w-fit h-[50svh]"
@@ -90,13 +92,13 @@ const CodeEditor: React.FC = () => {
       language={language}
       options={editorOptions}
       onMount={handleEditorDidMount}
-      value={selectedFile?.content || ""}
+      value={selectedFile?.content || ''}
       onChange={(value) => {
         // 可以添加保存功能
-        console.log("content changed:", value);
+        console.log('content changed:', value)
       }}
     />
-  );
-};
+  )
+}
 
-export default CodeEditor;
+export default CodeEditor

@@ -1,12 +1,13 @@
-import React, { ReactNode } from 'react';
+import type { ReactNode } from 'react'
+import React from 'react'
 
 export interface CardProps {
-  title?: ReactNode;
-  children: ReactNode;
-  className?: string;
-  bodyStyle?: React.CSSProperties;
-  style?: React.CSSProperties;
-  bordered?: boolean;
+  title?: ReactNode
+  children: ReactNode
+  className?: string
+  bodyStyle?: React.CSSProperties
+  style?: React.CSSProperties
+  bordered?: boolean
 }
 
 function Card({
@@ -26,18 +27,20 @@ function Card({
     >
       {title && (
         <div className="px-6 py-4 border-b border-gray-200">
-          {typeof title === 'string' ? (
-            <h3 className="text-base text-gray-700 mb-2">{title}</h3>
-          ) : (
-            title
-          )}
+          {typeof title === 'string'
+            ? (
+                <h3 className="text-base text-gray-700 mb-2">{title}</h3>
+              )
+            : (
+                title
+              )}
         </div>
       )}
       <div className="p-6" style={bodyStyle}>
         {children}
       </div>
     </div>
-  );
+  )
 }
 
-export default Card;
+export default Card

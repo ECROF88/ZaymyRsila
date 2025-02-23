@@ -1,20 +1,20 @@
-import { useUserStore } from "./hooks/useUserData";
-import useRepoData from "../Repos/hooks/useRepoData";
-import { Row, Col, Button, Avatar } from "antd";
-import Card from "../../component/Card";
 import {
   FolderOutlined,
+  PlusOutlined,
   StarOutlined,
   TeamOutlined,
-  PlusOutlined,
-} from "@ant-design/icons";
-import { useNavigate } from "react-router";
-import NumberShow from "../../component/NumberShow";
+} from '@ant-design/icons'
+import { Avatar, Button, Col, Row } from 'antd'
+import { useNavigate } from 'react-router'
+import Card from '../../component/Card'
+import NumberShow from '../../component/NumberShow'
+import useRepoData from '../Repos/hooks/useRepoData'
+import { useUserStore } from './hooks/useUserData'
 
 function Home() {
-  const { userData } = useUserStore();
-  const { repos } = useRepoData();
-  const navigate = useNavigate();
+  const { userData } = useUserStore()
+  const { repos } = useRepoData()
+  const navigate = useNavigate()
 
   return (
     <div className="home-container">
@@ -23,7 +23,11 @@ function Home() {
         <div className="flex items-center gap-4">
           <Avatar size={64} src={userData?.avatar} />
           <div>
-            <h1 className="text-2xl mb-2">欢迎回来，{userData?.name}！</h1>
+            <h1 className="text-2xl mb-2">
+              欢迎回来，
+              {userData?.name}
+              ！
+            </h1>
             <p className="text-gray-500">{userData?.email}</p>
           </div>
         </div>
@@ -32,7 +36,7 @@ function Home() {
       {/* 统计区域 */}
       <Row gutter={16} className="mb-6">
         <Col span={8}>
-          <Card bodyStyle={{ padding: "16px" }}>
+          <Card bodyStyle={{ padding: '16px' }}>
             <NumberShow
               title="仓库总数"
               value={repos?.length || 0}
@@ -41,7 +45,7 @@ function Home() {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bodyStyle={{ padding: "16px" }}>
+          <Card bodyStyle={{ padding: '16px' }}>
             <NumberShow
               title="代码提交"
               value={123}
@@ -50,7 +54,7 @@ function Home() {
           </Card>
         </Col>
         <Col span={8}>
-          <Card bodyStyle={{ padding: "16px" }}>
+          <Card bodyStyle={{ padding: '16px' }}>
             <NumberShow title="协作者" value={5} prefix={<TeamOutlined />} />
           </Card>
         </Col>
@@ -62,13 +66,13 @@ function Home() {
           <Button
             type="primary"
             icon={<PlusOutlined />}
-            onClick={() => navigate("/dashboard/repos")}
+            onClick={() => navigate('/dashboard/repos')}
           >
             添加仓库
           </Button>
           <Button
             icon={<TeamOutlined />}
-            onClick={() => navigate("/dashboard/userinfo")}
+            onClick={() => navigate('/dashboard/userinfo')}
           >
             个人信息
           </Button>
@@ -84,22 +88,24 @@ function Home() {
         </Col>
         <Col span={12}>
           <Card title="常用仓库" className="min-h-[300px] overflow-hidden">
-            {repos && repos.length > 0 ? (
-              <ul className="list-none p-0">
-                {repos.slice(0, 5).map((repo, index) => (
-                  <li key={index} className="py-2 border-b last:border-b-0">
-                    {repo.name}
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p>暂无仓库</p>
-            )}
+            {repos && repos.length > 0
+              ? (
+                  <ul className="list-none p-0">
+                    {repos.slice(0, 5).map((repo, index) => (
+                      <li key={index} className="py-2 border-b last:border-b-0">
+                        {repo.name}
+                      </li>
+                    ))}
+                  </ul>
+                )
+              : (
+                  <p>暂无仓库</p>
+                )}
           </Card>
         </Col>
       </Row>
     </div>
-  );
+  )
 }
 
-export default Home;
+export default Home
