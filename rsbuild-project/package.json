@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^4.3.0",
+    "@biomejs/biome": "1.9.4",
     "@eslint/compat": "^1.2.6",
     "@eslint/js": "^9.19.0",
     "@rsbuild/core": "^1.2.3",

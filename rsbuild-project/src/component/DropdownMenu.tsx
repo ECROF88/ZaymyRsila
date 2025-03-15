@@ -1,8 +1,8 @@
 import type { MenuProps } from 'antd'
+import type React from 'react'
 import type { Repo } from '../utils/store'
 import { EllipsisOutlined } from '@ant-design/icons'
 import { Dropdown, List } from 'antd'
-import React from 'react'
 import useRepoData from '../pages/Repos/hooks/useRepoData'
 
 interface DropdownMenuProps {

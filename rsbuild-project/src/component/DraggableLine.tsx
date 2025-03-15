@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import type React from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 // 定义类型
 interface Point {
@@ -110,7 +111,7 @@ function DraggableLine() {
         controlPoints,
       },
     ])
-  }, [isDragging, start, end, controlPoints])
+  }, [isDragging, controlPoints])
 
   // 监听鼠标移动和释放事件 (在整个文档上监听，以防鼠标移出 SVG 区域)
   useEffect(() => {
@@ -136,6 +137,7 @@ function DraggableLine() {
         height="300"
         style={{ backgroundColor: '#0d1117', border: '1px solid #ddd' }}
       >
+        <title>svg</title>
         {/* 使用二次贝塞尔曲线绘制可变形的线条 */}
         <path
           d={`M ${start.x} ${start.y} Q ${controlPoints[0].x} ${controlPoints[0].y} ${end.x} ${end.y}`}

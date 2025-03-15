@@ -92,7 +92,7 @@ function Home() {
               ? (
                   <ul className="list-none p-0">
                     {repos.slice(0, 5).map((repo, index) => (
-                      <li key={index} className="py-2 border-b last:border-b-0">
+                      <li key={repo.id || index} className="py-2 border-b last:border-b-0">
                         {repo.name}
                       </li>
                     ))}

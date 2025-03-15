@@ -1,4 +1,5 @@
 import type { MenuProps } from 'antd'
+import type React from 'react'
 import {
   BellOutlined,
   LogoutOutlined,
@@ -6,7 +7,6 @@ import {
   UserOutlined,
 } from '@ant-design/icons'
 import { Avatar, Badge, Dropdown, Layout, Space } from 'antd'
-import React from 'react'
 import { useNavigate } from 'react-router'
 import { useUserStore } from './hooks/useUserData'
 

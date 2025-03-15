@@ -73,20 +73,21 @@ export default function Test() {
           value={addcon}
           onChange={e => setAddcon(e.target.value)}
           ref={inputRef}
-        >
-        </input>
+        />
         <button type="button" onClick={additem}>
           click
         </button>
       </div>
       <div className="mb-4 space-x-4">
         <button
+          type="button"
           className={`px-4 py-2 rounded ${type === 'id' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
           onClick={() => handleChange('id')}
         >
           按ID排序
         </button>
         <button
+          type="button"
           className={`px-4 py-2 rounded ${type === 'rid' ? 'bg-blue-500 text-white' : 'bg-gray-200'}`}
           onClick={() => handleChange('rid')}
         >
@@ -113,6 +114,7 @@ export default function Test() {
               {item.content}
             </span>
             <button
+              type="button"
               onClick={() => handleDel(item.id)}
               className="px-3 py-1 bg-red-100 text-white rounded hover:bg-red-600 transition-colors"
             >

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-interface NumberShow {
+interface NumberShowData {
   title: string
   value: number | string
   prefix?: ReactNode
@@ -12,7 +12,7 @@ export default function NumberShow({
   value,
   prefix,
   className = '',
-}: NumberShow) {
+}: NumberShowData) {
   return (
     <div className={`${className} flex flex-col px-2 gap-2`}>
       <div className="text-base text-gray-700 mb-2">{title}</div>

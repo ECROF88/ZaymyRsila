@@ -58,7 +58,7 @@ function ScrollableTable() {
     // 初始加载第一页数据
     fetchData(page)
     setPage(prevPage => prevPage + 1)
-  }, []) // 依赖为空数组，只在组件挂载时执行一次
+  }, [page, fetchData]) // 依赖为空数组，只在组件挂载时执行一次
 
   const loadMoreData = useCallback(() => {
     if (loading || !hasMore) {
