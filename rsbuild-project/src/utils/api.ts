@@ -1,4 +1,4 @@
-import type { Repo } from './store'
+import type { UserData, Repo } from './store'
 import axios from 'axios'
 
 const authApi = axios.create({
@@ -60,8 +60,38 @@ export function register(data: RegisterData) {
 }
 
 // 需要认证的API
+/**
+ * 添加新仓库
+ * @param data 仓库数据
+ * @returns 返回添加的仓库信息
+ */
 export function addRepo(data: string) {
-  return protectedApi.get<ApiResponse<Repo>>('/repo/add', { params: { data } })
+  return protectedApi.post<ApiResponse<Repo>>('/repo/add', { params: { data } })
+}
+
+/**
+ * 获取用户数据
+ * @returns 返回用户数据
+ */
+export function getUserData() {
+  return protectedApi.get<ApiResponse<UserData>>('user/userdata')
+}
+
+/**
+ * 获取所有仓库
+ * @returns 返回仓库列表
+ */
+export function getRepos() {
+  return protectedApi.get<ApiResponse<Repo[]>>('/repo/list')
+}
+
+/**
+ * 获取仓库详情
+ * @param id 仓库ID
+ * @returns 返回仓库详细信息
+ */
+export function getRepoDetail(id: number) {
+  return protectedApi.get<ApiResponse<Repo>>(`/repo/${id}`)
 }
 
 export function upload(file: File) {
