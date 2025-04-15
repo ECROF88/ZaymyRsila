@@ -1,104 +1,105 @@
-import type { DiffLine } from './Git/types'
-import Editor from '@monaco-editor/react'
-import * as monaco from 'monaco-editor'
-// src/components/Repos/CodeEditor.tsx
-import React, { useEffect, useRef, useState } from 'react'
-import { getLanguageByExtension } from '../../utils/tool'
-import useRepoData from './hooks/useRepoData'
+import React from "react";
+import Editor from "@monaco-editor/react";
+import useRepoData from "./hooks/useRepoData";
+import { Spin } from "antd";
 
 const CodeEditor: React.FC = () => {
-  const { selectedFile } = useRepoData()
-  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
-  const decorationsRef = useRef<string[]>([])
+	const { selectedFile, loading } = useRepoData();
 
-  function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) {
-    editorRef.current = editor
+	// 根据文件扩展名确定语言
+	const getLanguageFromFilename = (filename: string) => {
+		if (!filename) return "text";
+		const extension = filename.split(".").pop()?.toLowerCase();
 
-    // 如果有差异信息，立即应用高亮
-    if (selectedFile?.diffLines) {
-      applyDiffDecorations(selectedFile.diffLines)
-    }
-  }
+		const languageMap: Record<string, string> = {
+			js: "javascript",
+			jsx: "javascript",
+			ts: "typescript",
+			tsx: "typescript",
+			py: "python",
+			java: "java",
+			html: "html",
+			css: "css",
+			json: "json",
+			md: "markdown",
+			rust: "rust",
+			rs: "rust",
+			c: "c",
+			cpp: "cpp",
+			h: "cpp",
+			go: "go",
+			php: "php",
+			rb: "ruby",
+			swift: "swift",
+			sh: "shell",
+			yml: "yaml",
+			yaml: "yaml",
+			sql: "sql",
+			xml: "xml",
+		};
 
-  // 应用差异高亮
-  const applyDiffDecorations = (diffLines: DiffLine[]) => {
-    if (!editorRef.current)
-      return
+		return languageMap[extension || ""] || "text";
+	};
 
-    const model = editorRef.current.getModel()
-    if (!model)
-      return
+	// 获取当前文件的语言
+	const language = selectedFile?.title
+		? getLanguageFromFilename(selectedFile.title)
+		: "text";
 
-    if (decorationsRef.current.length) {
-      /// oldDecorations: string[], newDecorations: IModelDeltaDecoration[]
-      model.deltaDecorations(decorationsRef.current, [])
-    }
-    // 创建新的装饰器
-    const decorations = diffLines.map(line => ({
-      range: new monaco.Range(line.lineNumber, 1, line.lineNumber, 1),
-      options: {
-        isWholeLine: true,
-        className:
-          line.type === 'add'
-            ? 'bg-green-100'
-            : line.type === 'delete'
-              ? 'bg-red-100'
-              : '',
-      },
-    }))
+	if (loading) {
+		return (
+			<div className="h-full w-full flex items-center justify-center">
+				<Spin tip="加载文件内容..." />
+			</div>
+		);
+	}
 
-    decorationsRef.current = model.deltaDecorations([], decorations)
-  }
-  // console.log('CodeEditor render:', selectedFile); // 添加这行
-  const [language, setLanguage] = useState('plaintext')
-  useEffect(() => {
-    // 当 selectedFile 改变时，更新编辑器的内容和高亮
-    if (editorRef.current && selectedFile) {
-      editorRef.current.setValue(selectedFile.content || '')
-      if (selectedFile.diffLines) {
-        applyDiffDecorations(selectedFile.diffLines)
-      }
-      setLanguage(getLanguageByExtension(selectedFile.key))
-    }
-  }, [selectedFile])
-  const editorOptions = React.useMemo(
-    () => ({
-      minimap: { enabled: false },
-      readOnly: false,
-      automaticLayout: true,
-      fontSize: 14,
-      lineHeight: 1.5,
-      folding: true,
-      foldingHighlight: true,
-      showFoldingControls: 'always' as const,
-      smoothScrolling: true,
-      scrollBeyondLastLine: false,
-      wordWrap: 'on' as const,
-      lineNumbers: 'on' as const,
-      renderWhitespace: 'selection' as const,
-      bracketPairColorization: { enabled: true },
-      guides: {
-        bracketPairs: true,
-        indentation: true,
-      },
-      renderValidationDecorations: 'off' as const,
-    }),
-    [],
-  )
-  return (
-    <Editor
-      className="w-fit h-[50svh]"
-      theme="vs-light"
-      language={language}
-      options={editorOptions}
-      onMount={handleEditorDidMount}
-      value={selectedFile?.content || ''}
-      onChange={(value) => {
-        // 可以添加保存功能
-        console.log('content changed:', value)
-      }}
-    />
-  )
-}
+	if (!selectedFile) {
+		return (
+			<div className="h-full w-full flex items-center justify-center text-gray-500">
+				请从左侧文件树中选择一个文件
+			</div>
+		);
+	}
 
-export default CodeEditor
+	if (selectedFile.diffLines) {
+		// 显示差异视图
+		return (
+			<div className="h-full w-full">
+				<Editor
+					height="100%"
+					width="100%"
+					language={language}
+					value={selectedFile.content || ""}
+					options={{
+						readOnly: true,
+						minimap: { enabled: true },
+						scrollBeyondLastLine: false,
+						fontSize: 14,
+						lineNumbers: "on",
+						lineDecorationsWidth: 0,
+					}}
+				/>
+			</div>
+		);
+	}
+
+	return (
+		<div className="h-full w-full">
+			<Editor
+				height="100%"
+				width="100%"
+				language={language}
+				value={selectedFile.content || ""}
+				options={{
+					readOnly: true,
+					minimap: { enabled: true },
+					scrollBeyondLastLine: false,
+					fontSize: 14,
+				}}
+			/>
+		</div>
+	);
+};
+
+export default CodeEditor;

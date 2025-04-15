@@ -1,0 +1,52 @@
+"filename", "language", "JavaScript", "TypeScript", "JSON", "Markdown", "JSON with Comments", "CSS", "TypeScript JSX", "XML", "comment", "blank", "total"
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\README.md", "Markdown", 0, 0, 0, 19, 0, 0, 0, 0, 0, 11, 30
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\biome.json", "JSON", 0, 0, 30, 0, 0, 0, 0, 0, 0, 1, 31
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\eslint.config.mjs", "JavaScript", 0, 0, 0, 0, 0, 0, 0, 0, 3, 3, 6
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\notes.md", "Markdown", 0, 0, 0, 144, 0, 0, 0, 0, 0, 27, 171
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\package.json", "JSON", 0, 0, 47, 0, 0, 0, 0, 0, 0, 1, 48
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\postcss.config.mjs", "JavaScript", 5, 0, 0, 0, 0, 0, 0, 0, 0, 1, 6
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\rsbuild.config.ts", "TypeScript", 0, 5, 0, 0, 0, 0, 0, 0, 0, 2, 7
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\App.css", "CSS", 0, 0, 0, 0, 0, 19, 0, 0, 20, 2, 41
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\App.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 40, 0, 8, 4, 52
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\assets\react.svg", "XML", 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\AvatarUpload.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 74, 0, 1, 10, 85
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\Card.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 43, 0, 0, 4, 47
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\DraggableLine.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 156, 0, 15, 21, 192
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\DropdownMenu.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 73, 0, 8, 4, 85
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\NumberShow.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 23, 0, 0, 3, 26
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\ScrollableTable.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 127, 0, 6, 14, 147
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\index.css", "CSS", 0, 0, 0, 0, 0, 19, 0, 0, 0, 1, 20
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\env.d.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\index.css", "CSS", 0, 0, 0, 0, 0, 18, 0, 0, 2, 4, 24
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\index.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 12, 0, 0, 2, 14
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\Dashboard.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 22, 0, 0, 4, 26
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\Footer.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 14, 0, 0, 4, 18
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\Header.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 80, 0, 2, 7, 89
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\Home.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 166, 0, 9, 12, 187
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\Sidebar.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 68, 0, 0, 8, 76
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\UserInfo.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 88, 0, 0, 7, 95
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\hooks\useUserData.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 22, 0, 0, 2, 24
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Login\Login.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 143, 0, 4, 8, 155
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Login\Register.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 201, 0, 8, 13, 222
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\AddRepos.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 143, 0, 17, 23, 183
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\CodeEditor.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 92, 0, 3, 11, 106
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\EdiRepos.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 68, 0, 8, 8, 84
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\FileTree.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 91, 0, 6, 13, 110
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\CommitList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 63, 0, 0, 5, 68
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\DiffView.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 89, 0, 1, 6, 96
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\GitState.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 72, 0, 2, 9, 83
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\types.ts", "TypeScript", 0, 36, 0, 0, 0, 0, 0, 0, 0, 7, 43
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\utils.ts", "TypeScript", 0, 56, 0, 0, 0, 0, 0, 0, 9, 6, 71
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\ReposLayout.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 42, 0, 3, 6, 51
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\ReposList.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 74, 0, 4, 4, 82
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\hooks\useRepoData.ts", "TypeScript", 0, 187, 0, 0, 0, 0, 0, 0, 12, 21, 220
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Test.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 361, 0, 4, 24, 389
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Test2.tsx", "TypeScript JSX", 0, 0, 0, 0, 0, 0, 66, 0, 1, 7, 74
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\route\routes.ts", "TypeScript", 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\api.ts", "TypeScript", 0, 252, 0, 0, 0, 0, 0, 0, 34, 32, 318
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\createSelectors.ts", "TypeScript", 0, 12, 0, 0, 0, 0, 0, 0, 0, 4, 16
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\store.ts", "TypeScript", 0, 80, 0, 0, 0, 0, 0, 0, 7, 6, 93
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\tool.ts", "TypeScript", 0, 17, 0, 0, 0, 0, 0, 0, 0, 2, 19
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\websocket.ts", "TypeScript", 0, 108, 0, 0, 0, 0, 0, 0, 17, 26, 151
+"c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\tsconfig.json", "JSON with Comments", 0, 0, 0, 0, 22, 0, 0, 0, 2, 3, 27
+"Total", "-", 5, 753, 77, 163, 22, 56, 2513, 1, 217, 405, 4212

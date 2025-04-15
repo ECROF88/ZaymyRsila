@@ -18,17 +18,20 @@ const ReposLayout: React.FC = () => {
 				<RepoList />
 			</Sider>
 			<div className="w-full">
-				<Content className="p-1 overflow-auto">
+				<Content className="p-1 overflow-hidden h-full">
 					{selectedRepo ? (
-						<div className="flex ">
-							<div className="flex-none w-[250px] mr-4 border-r border-gray-200">
+						<div className="flex h-full">
+							<div className="flex-none w-[250px] mr-4 border-r border-gray-200 overflow-auto">
 								<FileTree />
 							</div>
-							<div className="flex-1 flex flex-col">
-								<div className="flex-1 mb-1">
+							<div className="flex-1 flex flex-col h-full overflow-hidden">
+								{/* 编辑器区域 - 占据50%高度 */}
+								<div className="h-1/2 overflow-hidden mb-2 border border-gray-200 rounded-md shadow-sm">
 									<CodeEditor />
 								</div>
-								<div className="h-[40svh]">
+
+								{/* Git状态区域 - 占据50%高度 */}
+								<div className="h-1/2 overflow-hidden border border-gray-200 rounded-md shadow-sm">
 									<GitState repo={selectedRepo} />
 								</div>
 							</div>

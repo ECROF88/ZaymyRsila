@@ -8,7 +8,8 @@ export interface Repo {
   id: number
   name: string
   description?: string
-  url?: string
+  url: string
+  branch?:string
 }
 
 // 定义文件树节点的数据类型
@@ -18,6 +19,7 @@ export interface FileTreeNode {
   type: 'file' | 'directory'
   children?: FileTreeNode[]
   content?: string // 文件内容 (只有文件节点才有)
+  size?: number  // 添加文件大小属性
   diffLines?: DiffLine[] // 差异信息
 }
 
@@ -25,22 +27,25 @@ export interface DiffContent {
   content: string
   fileName: string
 }
-
 export interface RepoStore {
   repos: Repo[]
   selectedRepo: Repo | null
   fileTree: FileTreeNode[]
   selectedFile: FileTreeNode | null
   diffContent: DiffContent | null
+  loading: boolean // 添加加载状态
+  error: string | null // 添加错误状态
+  fetchRepos: () => Promise<void> // 添加获取仓库的方法
   setSelectedRepo: (repo: Repo | null) => void
   setSelectedFile: (file: FileTreeNode | null) => void
-  fetchFileTree: (repo: Repo) => void
+  fetchFileTree: (repo: Repo) => Promise<void>
   addRepo: (repo: Omit<Repo, 'id'>) => void
   deleteRepo: (id: number) => void
   setDiffContent: (content: ParsedDiff, fileName: string) => void
+  fetchFileContent: (repo_name: string, file_path: string, branch?: string) => Promise<void>;
 }
 export interface UserData {
-  name: string
+  username: string
   email: string
   avatar?: string
 }

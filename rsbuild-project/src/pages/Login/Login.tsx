@@ -18,9 +18,11 @@ export default function Login() {
 		e.preventDefault();
 		try {
 			const response = await login(formData);
+			console.log(response);
 			if (response.data.code === 0) {
 				localStorage.setItem("token", response.data.data);
-				navigate("/");
+				console.log(response.data.data);
+				navigate("/dashboard");
 			} else {
 				setError(response.data.message);
 			}
