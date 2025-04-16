@@ -2,12 +2,18 @@ import type { Repo } from "../../../utils/store";
 import type {
 	CommitDetail,
 	CommitFileChange,
+	CommitInfo,
 	GitCommit,
 	ParsedDiff,
 } from "./types";
 import type React from "react";
 import { useEffect, useState } from "react";
-import { getGitCommitDetail, getGitHistory } from "../../../utils/api";
+import {
+	getCommitHistories,
+	getDiff,
+	getGitCommitDetail,
+	getGitHistory,
+} from "../../../utils/api";
 import useRepoData from "../hooks/useRepoData";
 import CommitList from "./CommitList";
 import DiffView from "./DiffView";
@@ -18,25 +24,35 @@ interface GitStateProps {
 }
 
 const GitState: React.FC<GitStateProps> = ({ repo }) => {
-	const [commits, setCommits] = useState<GitCommit[]>([]);
+	const [commits, setCommits] = useState<CommitInfo[]>([]);
 	const [selectedCommit, setSelectedCommit] = useState<string | null>(null);
 	const [commitDetail, setCommitDetail] = useState<CommitDetail | null>(null);
 	const [loading, setLoading] = useState(false);
-	const { setDiffContent: setEditorDiffContent } = useRepoData();
+	const { setDiffContent } = useRepoData();
 
 	useEffect(() => {
 		if (repo) {
-			loadGitHistory();
+			setCommits([]);
+			setSelectedCommit(null);
+			setCommitDetail(null);
+			fetchCommitHistories();
+		} else {
+			setCommits([]);
+			setSelectedCommit(null);
+			setCommitDetail(null);
 		}
 	}, [repo]);
 
-	const loadGitHistory = async () => {
+	const fetchCommitHistories = async () => {
 		try {
 			setLoading(true);
-			const response = await getGitHistory(repo.id);
+			const response = await getCommitHistories({
+				repo_name: repo.name,
+				limit: 10,
+			});
 			setCommits(response.data.data);
 		} catch (error) {
-			console.error("加载Git历史失败:", error);
+			console.error("加载示例commits出错:", error);
 		} finally {
 			setLoading(false);
 		}
@@ -45,7 +61,8 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
 	const handleCommitSelect = async (hash: string) => {
 		try {
 			setLoading(true);
-			const response = await getGitCommitDetail(repo.id, hash);
+			// const response = await getGitCommitDetail(repo.id, hash);
+			const response = await getDiff({ repo_name: repo.name, commit_id: hash });
 			setCommitDetail(response.data.data);
 			setSelectedCommit(hash);
 		} catch (error) {
@@ -57,9 +74,8 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
 
 	const handleViewInEditor = (fileChange: CommitFileChange) => {
 		// 将文件差异传递给编辑器
-		// const parsedDiff = { content: fileChange.diff } as ParsedDiff; // 简化处理，实际项目可能需要解析diff
 		const parsedDiff = parseDiff(fileChange.diff);
-		setEditorDiffContent(parsedDiff, fileChange.path);
+		setDiffContent(parsedDiff, fileChange.path);
 	};
 
 	return (

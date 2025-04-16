@@ -1,37 +1,59 @@
 import { getUserData } from "@/utils/api";
 import type { UserData } from "@/utils/store";
 import { create } from "zustand";
+import { devtools } from "zustand/middleware";
 
 const initialState: UserData = {
 	username: "",
 	email: "",
 	avatar: undefined,
 };
-export const useUserStore = create<{
+
+interface UserStore {
 	userData: UserData;
 	updateUserData: (newData: Partial<UserData>) => void;
 	resetUserData: () => void;
-	fetchUserData: () => void;
-}>((set) => ({
-	userData: initialState, // 初始状态
-	updateUserData: (newData: Partial<UserData>) =>
-		set((state) => ({
-			userData: { ...state.userData, ...newData }, // 更新部分字段
-		})),
-	resetUserData: () =>
-		set(() => ({
-			userData: initialState, // 重置为初始状态
-		})),
+	fetchUserData: () => Promise<void>;
+	loading?: boolean;
+	error?: string | null;
+}
 
-	fetchUserData: async () => {
-		const response = await getUserData();
-		console.log(response);
-		if (response && response.data && response.data.data) {
-			set((state) => ({
-				userData: { ...state.userData, ...response.data.data },
-			}));
-		} else {
-			throw new Error(response?.data?.message || "获取用户信息失败");
-		}
-	},
-}));
+export const useUserStore = create<UserStore>()(
+	devtools(
+		(set) => ({
+			userData: initialState,
+			updateUserData: (newData: Partial<UserData>) =>
+				set((state) => ({
+					userData: { ...state.userData, ...newData },
+				})),
+
+			resetUserData: () =>
+				set(() => ({
+					userData: initialState,
+				})),
+
+			fetchUserData: async () => {
+				set({ loading: true, error: null });
+				try {
+					const response = await getUserData();
+					if (response && response.data && response.data.data !== null) {
+						set({
+							userData: response.data.data,
+							loading: false,
+						});
+					} else {
+						throw new Error(response?.data?.message || "获取用户信息失败");
+					}
+				} catch (error) {
+					console.error("获取用户数据失败:", error);
+					set({
+						error: error instanceof Error ? error.message : "获取用户信息失败",
+						loading: false,
+					});
+					throw error; // 重新抛出错误以便上层组件捕获
+				}
+			},
+		}),
+		{ name: "user-store" },
+	),
+);

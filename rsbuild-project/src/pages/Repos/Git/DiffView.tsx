@@ -31,15 +31,8 @@ const DiffView: React.FC<DiffViewProps> = ({
 			<div className="flex-1 overflow-auto p-4">
 				{commitDetail ? (
 					<div className="space-y-6">
-						<div className="bg-indigo-50 p-4 rounded-lg">
-							<h3 className="font-medium text-indigo-800 mb-2">提交信息</h3>
-							<div className="bg-white p-3 rounded border border-indigo-100">
-								{commitDetail.commit_info.message}
-							</div>
-						</div>
-
-						<div className="bg-indigo-50 p-4 rounded-lg">
-							<h3 className="font-medium text-indigo-800 mb-3">修改文件</h3>
+						<div className="bg-indigo-50 p-4 rounded-4xl">
+							<h3 className="font-medium text-indigo-800">修改文件</h3>
 							<ul className="space-y-2">
 								{commitDetail.file_changes.map((fileChange) => (
 									<li

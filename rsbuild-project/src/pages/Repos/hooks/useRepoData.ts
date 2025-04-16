@@ -4,54 +4,54 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { getRepos, getFiles, getFileContent, FileNode } from '@/utils/api'
 
-// 模拟的仓库数据
-const initialRepos: Repo[] = [
-  { id: 1, name: 'my-project' ,url:"http://xxx" },
-  { id: 2, name: 'another-repo' ,url:"http://xxx" },
-  { id: 3, name: 'sample-app',url:"http://xxx" },
-]
+// // 模拟的仓库数据
+// const initialRepos: Repo[] = [
+//   { id: 1, name: 'my-project' ,url:"http://xxx" },
+//   { id: 2, name: 'another-repo' ,url:"http://xxx" },
+//   { id: 3, name: 'sample-app',url:"http://xxx" },
+// ]
 
-// 模拟的文件树数据 (针对第一个仓库)
-const initialFileTree: FileTreeNode[] = [
-  {
-    key: 'src',
-    title: 'src',
-    type: 'directory',
-    children: [
-      {
-        key: 'src/App.tsx',
-        title: 'App.tsx',
-        type: 'file',
-        content: 'import React from "react";\n\nfunction App() {\n  return <h1>Hello, World!</h1>;\n}',
-      },
-      {
-        key: 'src/index.tsx',
-        title: 'index.tsx',
-        type: 'file',
-        content: '// Entry point of your application',
-      },
-    ],
-  },
-  {
-    key: 'public',
-    title: 'public',
-    type: 'directory',
-    children: [
-      {
-        key: 'public/index.html',
-        title: 'index.html',
-        type: 'file',
-        content: '<!DOCTYPE html>\n<html>\n  <head>\n    <title>My App</title>\n  </head>\n  <body>\n    <div id="root"></div>\n  </body>\n</html>',
-      },
-    ],
-  },
-  {
-    key: 'README.md',
-    title: 'README.md',
-    type: 'file',
-    content: '# My Project\n\nThis is a sample project.',
-  },
-]
+// // 模拟的文件树数据 (针对第一个仓库)
+// const initialFileTree: FileTreeNode[] = [
+//   {
+//     key: 'src',
+//     title: 'src',
+//     type: 'directory',
+//     children: [
+//       {
+//         key: 'src/App.tsx',
+//         title: 'App.tsx',
+//         type: 'file',
+//         content: 'import React from "react";\n\nfunction App() {\n  return <h1>Hello, World!</h1>;\n}',
+//       },
+//       {
+//         key: 'src/index.tsx',
+//         title: 'index.tsx',
+//         type: 'file',
+//         content: '// Entry point of your application',
+//       },
+//     ],
+//   },
+//   {
+//     key: 'public',
+//     title: 'public',
+//     type: 'directory',
+//     children: [
+//       {
+//         key: 'public/index.html',
+//         title: 'index.html',
+//         type: 'file',
+//         content: '<!DOCTYPE html>\n<html>\n  <head>\n    <title>My App</title>\n  </head>\n  <body>\n    <div id="root"></div>\n  </body>\n</html>',
+//       },
+//     ],
+//   },
+//   {
+//     key: 'README.md',
+//     title: 'README.md',
+//     type: 'file',
+//     content: '# My Project\n\nThis is a sample project.',
+//   },
+// ]
 
 // 将后端返回的 FileNode 转换为前端使用的 FileTreeNode
 const convertToFileTreeNode = (fileNodes: FileNode[]): FileTreeNode[] => {
@@ -59,7 +59,6 @@ const convertToFileTreeNode = (fileNodes: FileNode[]): FileTreeNode[] => {
     key: node.path,
     title: node.name,
     type: node.is_dir ? 'directory' : 'file',
-    content: '', // 文件内容暂时留空，需要时再加载
     size: node.size,
     children: node.children ? convertToFileTreeNode(node.children) : undefined
   }));
@@ -103,17 +102,6 @@ export const useRepoStore = create<RepoStore>()(
 
       setSelectedRepo: (repo) => {
         set({ selectedRepo: repo })
-        if (repo) {
-          set(() => {
-            // 模拟获取文件树
-            // todo
-            const newFileTree = repo.id === 1 ? initialFileTree : []
-            return {
-              fileTree: newFileTree,
-              selectedFile: null,
-            }
-          })
-        }
       },
 
       setSelectedFile: file => set({ selectedFile: file }),

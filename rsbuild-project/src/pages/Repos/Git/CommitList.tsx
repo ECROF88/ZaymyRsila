@@ -1,8 +1,8 @@
-import type { GitCommit } from "./types";
+import type { CommitDetail, CommitInfo, GitCommit } from "./types";
 import React from "react";
 
 interface CommitListProps {
-	commits: GitCommit[];
+	commits: CommitInfo[];
 	selectedCommit: string | null;
 	onSelectCommit: (hash: string) => void;
 	loading: boolean;
@@ -20,7 +20,7 @@ const CommitList: React.FC<CommitListProps> = ({
 	};
 
 	return (
-		<div className="w-full max-w-[20svw] flex flex-col h-full bg-white rounded-lg shadow-lg border border-indigo-100">
+		<div className="w-full flex flex-col h-full bg-white rounded-lg shadow-lg border border-indigo-100">
 			<div className="p-4 border-b bg-gradient-to-r from-blue-500 to-indigo-400 rounded-t-lg">
 				<h2 className="text-xl font-bold text-white">提交历史</h2>
 			</div>

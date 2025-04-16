@@ -9,6 +9,7 @@ import {
 import { Avatar, Badge, Dropdown, Layout, Space } from "antd";
 import { useNavigate } from "react-router";
 import { useUserStore } from "./hooks/useUserData";
+import { logout } from "@/utils/tool";
 
 const { Header } = Layout;
 
@@ -51,6 +52,7 @@ const HeaderContent: React.FC = () => {
 			onClick: () => {
 				localStorage.removeItem("token");
 				navigate("/login");
+				logout();
 			},
 		},
 	];

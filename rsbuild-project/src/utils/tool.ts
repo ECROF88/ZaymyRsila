@@ -1,3 +1,6 @@
+import { message } from "antd"
+import { useNavigate } from "react-router"
+
 function getLanguageByExtension(fileKey: string): string {
   const extension = fileKey.split('.').pop()?.toLowerCase()
   const mapping: Record<string, string> = {
@@ -14,5 +17,22 @@ function getLanguageByExtension(fileKey: string): string {
   }
   return mapping[extension || ''] || 'plaintext'
 }
+
+
+
+export const isAuthenticated= ():boolean => {
+  return !!localStorage.getItem('token')
+}
+
+export const logout = ():void => {
+  localStorage.removeItem('token');
+  window.location.href = '/login';
+}
+
+export const handleAuthError = (): void => {
+  console.log("重新登录。。。")
+  alert("登录已过期，请重新登录")
+  logout();
+};
 
 export { getLanguageByExtension }

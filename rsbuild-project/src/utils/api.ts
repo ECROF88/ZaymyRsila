@@ -1,5 +1,7 @@
+import { CommitDetail, CommitInfo } from '@/pages/Repos/Git/types'
 import type { UserData, Repo } from './store'
 import axios from 'axios'
+import { handleAuthError } from './tool'
 
 const authApi = axios.create({
   baseURL: 'http://localhost:3000/api/auth',
@@ -18,7 +20,8 @@ const protectedApi = axios.create({
 })
 
 // token拦截器
-protectedApi.interceptors.request.use((config) => {
+protectedApi.interceptors.request.use(
+  (config) => {
   const token = localStorage.getItem('token')
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
@@ -26,6 +29,19 @@ protectedApi.interceptors.request.use((config) => {
   return config
 })
 
+protectedApi.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    // 处理 401 (Unauthorized) 或 403 (Forbidden) 错误
+    if (error.response && (error.response.status === 401 || error.response.status === 403)) {
+      console.error('认证失败，请重新登录');
+      handleAuthError();
+    }
+    return Promise.reject(error);
+  }
+)
 export interface LoginData {
   identity: string
   password: string
@@ -55,7 +71,6 @@ export interface CloneRepoData {
   repo_name: string
 }
 
-// 文件树接口返回类型
 export interface FileNode {
   name: string;
   path: string;
@@ -99,14 +114,7 @@ export function getFiles(repo_name: string) {
   return protectedApi.get<ApiResponse<FileNode[]>>(`/repo/files?repo_name=${encodeURIComponent(repo_name)}`)
 }
 
-// /**
-//  * 获取仓库详情
-//  * @param id 仓库ID
-//  * @returns 返回仓库详细信息
-//  */
-// export function getRepoDetail(id: number) {
-//   return protectedApi.get<ApiResponse<Repo>>(`/repo/${id}`)
-// }
+
 
 export function upload(file: File) {
   const formData = new FormData()
@@ -136,24 +144,42 @@ export function getFileContent(repo_name: string, file_path: string, branch: str
   )
 }
 
+interface getCommitHistoriesRequest {
+  repo_name:string,
+  limit:number,
+}
+
+export function getCommitHistories(data:getCommitHistoriesRequest){
+  return protectedApi.get<ApiResponse<CommitInfo[]>>("/repo/commithistories",{params:data});
+}
+
+
+interface getDiffRequest{
+  repo_name:string,
+  commit_id:string,
+}
+export function getDiff(data:getDiffRequest){
+  return protectedApi.get<ApiResponse<CommitDetail>>("/repo/getdiff",{params:data})
+}
+
 // Git相关的API
-interface CommitInfo {
-  author: string
-  id: string
-  message: string
-  time: number
-}
+// interface CommitInfo {
+//   author: string
+//   id: string
+//   message: string
+//   time: number
+// }
 
-interface CommitFileChange {
-  diff: string
-  path: string
-  status: string
-}
+// interface CommitFileChange {
+//   diff: string
+//   path: string
+//   status: string
+// }
 
-interface CommitDetail {
-  commit_info: CommitInfo
-  file_changes: CommitFileChange[]
-}
+// interface CommitDetail {
+//   commit_info: CommitInfo
+//   file_changes: CommitFileChange[]
+// }
 
 // 用于历史提交列表的简化结构
 interface GitHistoryItem {

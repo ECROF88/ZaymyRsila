@@ -1,13 +1,13 @@
 import type { UserData } from "../../utils/store";
 import { UserOutlined } from "@ant-design/icons";
 import { Button, Card, Form, Input, message } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AvatarUpload from "../../component/AvatarUpload";
 import { useUserStore } from "./hooks/useUserData";
 
 function UserInfo() {
 	const [form] = Form.useForm();
-	const { userData, updateUserData } = useUserStore();
+	const { userData, updateUserData, fetchUserData } = useUserStore();
 	const [messageApi, contextHolder] = message.useMessage();
 	const [isEditing, setIsEditing] = useState(false);
 	const handleSubmit = async (values: UserData) => {
@@ -24,9 +24,29 @@ function UserInfo() {
 			});
 		}
 	};
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const fetch = async () => {
+			setLoading(true);
+			setError(null);
+			try {
+				fetchUserData();
+			} catch (err) {
+				console.error("获取用户数据失败", err);
+				setError(err instanceof Error ? err.message : "获取用户数据失败");
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetch();
+	}, []);
 
 	return (
 		<div className="p-6">
+			{loading && <div>加载中...</div>}
+			{error && <div className="text-red-500">{error}</div>}
 			{contextHolder}
 			<Card title="个人信息" className="max-w-2xl mx-auto">
 				<div className="flex flex-col items-center mb-8">

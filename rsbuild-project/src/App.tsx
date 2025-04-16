@@ -16,17 +16,9 @@ import Test2 from "./pages/Test2";
 import "./App.css";
 import { useEffect } from "react";
 import { initWebSocket } from "./utils/websocket";
+import ProtectedRoute from "./route/PretectedRoute";
 
 function App() {
-	// 初始化 WebSocket 连接
-	// useEffect(() => {
-	// 	const token = localStorage.getItem("token");
-	// 	if (token) {
-	// 		console.log("init web socket");
-	// 		initWebSocket();
-	// 	}
-	// }, []);
-
 	return (
 		<BrowserRouter>
 			<div className="min-h-screen w-full">
@@ -34,14 +26,17 @@ function App() {
 					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route path="/" element={<Navigate to="/login" replace />} />
-					<Route path="/test" element={<Test />} />
-					<Route path="/test2" element={<Test2 />} />
-					<Route path="/dashboard" element={<Dashboard />}>
-						<Route index element={<Home />} />
-						<Route path="home" element={<Home />} />
-						<Route path="userinfo" element={<UserInfo />} />
-						<Route path="repos" element={<ReposLayout />} />
+
+					<Route element={<ProtectedRoute />}>
+						<Route path="/dashboard" element={<Dashboard />}>
+							<Route index element={<Home />} />
+							<Route path="home" element={<Home />} />
+							<Route path="userinfo" element={<UserInfo />} />
+							<Route path="repos" element={<ReposLayout />} />
+						</Route>
 					</Route>
+
+					<Route path="*" element={<Navigate to="/login" replace />} />
 				</Routes>
 			</div>
 		</BrowserRouter>

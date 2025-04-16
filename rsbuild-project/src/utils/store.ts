@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import { immer } from 'zustand/middleware/immer'
 import { createSelectors } from './createSelectors'
+import { FileNode } from './api'
 // 定义仓库的数据类型
 export interface Repo {
   id: number

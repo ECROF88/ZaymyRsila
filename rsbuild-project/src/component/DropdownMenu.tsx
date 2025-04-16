@@ -28,26 +28,23 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 			className="flex-auto"
 			renderItem={(item) => (
 				<List.Item
-					key={item.id}
+					key={item.name}
 					onClick={(e) => {
 						if (!(e.target as HTMLElement).closest(".ant-dropdown-trigger")) {
-							// onItemSelect(item);
 							setSelectedRepo(item);
 						}
 					}}
 					className={`
-            
-            border-amber-100
+		  border-gray-200
             border-2
-            px-6 py-3 
+            px-2 py-1
             cursor-pointer 
-            transition-all duration-200 ease-in-out
-            hover:bg-blue-300
+            transition-all duration-100 ease-in
+            hover:bg-green-300
               ${
-								// selectedItem?.id === item.id
-								selectedRepo?.id === item.id
-									? "bg-green-100 border-l-4 border-blue-300"
-									: "hover:border-l-6 hover:border-gray-300"
+								selectedRepo?.name === item.name
+									? "bg-green-500 border-l-8 border-gray-500"
+									: "hover:border-l-6 hover:border-gray-500"
 							}
           `}
 					actions={[
@@ -59,22 +56,23 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 								onClick: ({ key }) => onMenuClick?.(key, item),
 							}}
 						>
-							<EllipsisOutlined className="text-gray-500 hover:text-gray-700" />
+							<EllipsisOutlined className="text-gray-200 hover:text-blue-700" />
 						</Dropdown>,
 					]}
 				>
 					<List.Item.Meta
+						className="px-2"
 						title={
 							<span
-								className={`
-                  font-medium
-                  ${selectedRepo?.id === item.id ? "text-green-700" : "text-gray-700"}
-                `}
+								className={`font-medium${selectedRepo?.name === item.name ? "text-green-700" : "text-gray-700"}`}
 							>
 								{item.name}
 							</span>
 						}
 					/>
+					<span className="border-2 bg-gray-200 border-gray-300  rounded-2xl px-1">
+						{item.branch}
+					</span>
 				</List.Item>
 			)}
 		/>

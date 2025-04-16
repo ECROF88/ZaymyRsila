@@ -69,6 +69,7 @@ const ReposList: React.FC = () => {
 						setIsEditOpen(true);
 					} else if (key === "delete") {
 						console.log("delete", item);
+						// TODO! ADD DELETE API
 					}
 				}}
 			/>

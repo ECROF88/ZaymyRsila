@@ -2,72 +2,96 @@ import type { FileTreeNode } from "@/utils/store";
 import type { DataNode } from "antd/es/tree";
 import { FileOutlined, FolderOutlined } from "@ant-design/icons";
 import { Tree, Spin } from "antd";
-import React, { useEffect } from "react";
-import useRepoData from "./hooks/useRepoData";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { useRepoStore } from "./hooks/useRepoData";
 
 const FileTree: React.FC = () => {
-	const {
-		fileTree,
-		selectedFile,
-		setSelectedFile,
-		selectedRepo,
-		loading,
-		error,
-		fetchFileTree,
-		fetchFileContent,
-	} = useRepoData();
+	// 使用选择器分离状态，只订阅需要的状态变化
+	const fileTree = useRepoStore((state) => state.fileTree);
+	const selectedFile = useRepoStore((state) => state.selectedFile);
+	const selectedRepo = useRepoStore((state) => state.selectedRepo);
+	const loading = useRepoStore((state) => state.loading);
+	const error = useRepoStore((state) => state.error);
+	const setSelectedFile = useRepoStore((state) => state.setSelectedFile);
+	const fetchFileTree = useRepoStore((state) => state.fetchFileTree);
+	const fetchFileContent = useRepoStore((state) => state.fetchFileContent);
+
+	// 添加展开的节点状态
+	const [expandedKeys, setExpandedKeys] = useState<React.Key[]>([]);
+
+	// 处理展开/折叠
+	const onExpand = useCallback((expandedKeys: React.Key[]) => {
+		setExpandedKeys(expandedKeys);
+	}, []);
 
 	// 将 FileTreeNode[] 转换为 Ant Design Tree 组件需要的 DataNode[]
-	const convertToTreeData = (nodes: FileTreeNode[]): DataNode[] => {
+	const convertToTreeData = useCallback((nodes: FileTreeNode[]): DataNode[] => {
 		return nodes.map((node) => ({
 			key: node.key,
 			title: node.title,
 			icon: node.type === "directory" ? <FolderOutlined /> : <FileOutlined />,
 			children: node.children ? convertToTreeData(node.children) : undefined,
 		}));
-	};
+	}, []);
 
 	// 当选择的仓库改变时，加载文件树
 	useEffect(() => {
 		if (selectedRepo) {
 			console.log("文件树发现仓库变更:", selectedRepo);
 			fetchFileTree(selectedRepo);
+			// 重置展开状态
+			setExpandedKeys([]);
 		}
 	}, [selectedRepo, fetchFileTree]);
 
-	const treeData = convertToTreeData(fileTree);
+	// 使用 useMemo 缓存转换结果，避免不必要的重新计算
+	const treeData = useMemo(
+		() => convertToTreeData(fileTree),
+		[fileTree, convertToTreeData],
+	);
 
-	// 修改 onSelect 函数
-	const onSelect = (selectedKeys: React.Key[], info: any) => {
-		// 递归查找节点
-		const findNode = (
-			nodes: FileTreeNode[],
-			key: string,
-		): FileTreeNode | null => {
-			for (const node of nodes) {
-				if (node.key === key) return node;
-				if (node.children) {
-					const found = findNode(node.children, key);
-					if (found) return found;
-				}
+	// 使用 useCallback 缓存函数引用
+	const onSelect = useCallback(
+		(selectedKeys: React.Key[], info: any) => {
+			if (selectedKeys.length === 0) return;
+
+			const selectedKey = selectedKeys[0].toString();
+
+			// 避免重复选择相同文件
+			if (selectedFile && selectedFile.key === selectedKey) {
+				return;
 			}
-			return null;
-		};
 
-		const selectedNode = findNode(fileTree, selectedKeys[0]?.toString() || "");
-		if (selectedNode?.type === "file" && selectedRepo) {
-			// 先设置选中文件，这样可以立即更新UI
-			setSelectedFile(selectedNode);
-			console.log("选择了新文件", selectedNode);
+			const findNode = (
+				nodes: FileTreeNode[],
+				key: string,
+			): FileTreeNode | null => {
+				for (const node of nodes) {
+					if (node.key === key) return node;
+					if (node.children) {
+						const found = findNode(node.children, key);
+						if (found) return found;
+					}
+				}
+				return null;
+			};
 
-			// 然后获取文件内容
-			fetchFileContent(
-				selectedRepo.name,
-				selectedNode.key,
-				selectedRepo.branch,
-			);
-		}
-	};
+			const selectedNode = findNode(fileTree, selectedKey);
+
+			if (selectedNode?.type === "file" && selectedRepo) {
+				setSelectedFile(selectedNode);
+
+				console.log("选择了新文件", selectedNode);
+
+				fetchFileContent(
+					selectedRepo.name,
+					selectedNode.key,
+					selectedRepo.branch,
+				);
+			}
+		},
+		[fileTree, selectedFile, selectedRepo, setSelectedFile, fetchFileContent],
+	);
 
 	if (!selectedRepo) {
 		return <div className="p-4 text-gray-500">请先选择一个仓库</div>;
@@ -94,7 +118,8 @@ const FileTree: React.FC = () => {
 					<Tree
 						showLine={true}
 						showIcon={true}
-						defaultExpandedKeys={["0-0-0"]}
+						expandedKeys={expandedKeys}
+						onExpand={onExpand}
 						onSelect={onSelect}
 						selectedKeys={selectedFile ? [selectedFile.key] : []}
 						treeData={treeData}
@@ -106,4 +131,4 @@ const FileTree: React.FC = () => {
 	);
 };
 
-export default FileTree;
+export default React.memo(FileTree);

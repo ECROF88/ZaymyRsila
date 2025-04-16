@@ -14,7 +14,7 @@ const DashboardLayout: React.FC = () => {
 			<Layout>
 				<Header />
 				<Content className="m-4 p-4 bg-auto">
-					<Outlet /> {/* 渲染匹配的子路由组件 */}
+					<Outlet />
 				</Content>
 				<Footer />
 			</Layout>

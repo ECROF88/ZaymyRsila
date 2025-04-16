@@ -8,56 +8,31 @@ import { Avatar, Button, Col, Row } from "antd";
 import { useNavigate } from "react-router";
 import Card from "../../component/Card";
 import NumberShow from "../../component/NumberShow";
-import useRepoData from "../Repos/hooks/useRepoData";
+import { useRepoStore } from "../Repos/hooks/useRepoData";
 import { useUserStore } from "./hooks/useUserData";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useShallow } from "zustand/react/shallow";
 function Home() {
-	// const { userData, updateUserData, fetchUserData } = useUserStore();
-	const { userData, fetchUserData, updateUserData } = useUserStore((state) => ({
-		userData: state.userData,
-		fetchUserData: state.fetchUserData,
-		updateUserData: state.updateUserData,
-	}));
-	const navigate = useNavigate();
-	const {
-		repos,
-		loading: reposLoading,
-		error: reposError,
-		fetchRepos,
-	} = useRepoData();
+	const userData = useUserStore(useShallow((state) => state.userData));
 
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState<string | null>(null);
+	const loading = useUserStore(useShallow((state) => state.loading));
+	const error = useUserStore(useShallow((state) => state.error));
+
+	const navigate = useNavigate();
+
+	const repos = useRepoStore((state) => state.repos);
+	const reposLoading = useRepoStore(useShallow((state) => state.loading));
+	const reposError = useRepoStore(useShallow((state) => state.error));
 
 	useEffect(() => {
-		fetchRepos();
-		const fetch = async () => {
-			setLoading(true);
-			setError(null);
-
-			try {
-				// const response = await getUserData();
-				// console.log(response);
-				// if (response && response.data && response.data.data) {
-				// 	updateUserData(response.data.data);
-				// } else {
-				// 	setError("获取用户数据格式错误");
-				// }
-				fetchUserData();
-			} catch (err) {
-				console.error("获取用户数据失败", err);
-				setError(err instanceof Error ? err.message : "获取用户数据失败");
-			} finally {
-				setLoading(false);
-			}
+		const loadData = async () => {
+			const fetchRepos = useRepoStore.getState().fetchRepos;
+			fetchRepos();
+			const fetchUserDataFromStore = useUserStore.getState().fetchUserData;
+			fetchUserDataFromStore();
 		};
-
-		fetch();
-	}, [updateUserData]); // 添加 updateUserData 作为依赖
-
-	// const refreshRepos = () => {
-	// 	fetchRepos();
-	// };
+		loadData();
+	}, []);
 
 	return (
 		<div className="home-container">
