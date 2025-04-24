@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 // import clsx from 'clsx';
 import { register } from "../../utils/api";
+import Bg from "./bg";
 
 export default function Register() {
 	const navigate = useNavigate();
@@ -88,9 +89,7 @@ export default function Register() {
 
 	return (
 		<div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-300 via-purple-200 to-pink-300 overflow-hidden">
-			<div className="absolute top-0 left-0 w-96 h-96 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob" />
-			<div className="absolute top-0 right-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
-			<div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
+			<Bg />
 			<div className="relative z-10 w-full max-w-2xl p-12 bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/60">
 				<div className="flex-col items-center flex">
 					<div className="w-60 h-20 bg-gradient-to-r from-blue-500 to-purple-400 rounded-2xl flex justify-center items-center mb-5 shadow-lg transform hover:-rotate-12 transition-transform duration-300">

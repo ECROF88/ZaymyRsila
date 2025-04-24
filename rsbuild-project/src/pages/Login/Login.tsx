@@ -3,8 +3,7 @@ import type { LoginData } from "../../utils/api";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { login } from "../../utils/api";
-// import { useStore } from 'zustand';z
-// import { useStore } from '../utils/store';
+import Bg from "./bg";
 
 export default function Login() {
 	const navigate = useNavigate();
@@ -41,10 +40,7 @@ export default function Login() {
 		"block w-full px-4 py-4 text-lg border border-gray-200 rounded-xl placeholder-gray-400 text-gray-900 bg-white/90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 hover:border-purple-300";
 	return (
 		<div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-200 via-purple-200 to-pink-200 overflow-hidden animate-gradient">
-			<div className="absolute top-0 left-0 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" />
-			<div className="absolute top-0 right-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" />
-			<div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-400 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" />
-
+			<Bg />
 			<div className="relative z-10 w-full max-w-2xl p-12 bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/60">
 				<div>
 					<div className="flex flex-col items-center">
@@ -109,7 +105,7 @@ export default function Login() {
 						</div>
 						<div>
 							<label
-								htmlFor="password"
+								htmlFor="password" // 对应于input的id
 								className="block text-lg font-medium text-gray-700 mb-2"
 							>
 								密码
@@ -119,7 +115,6 @@ export default function Login() {
 								name="password"
 								type="password"
 								required
-								// className="block w-full px-4 py-4 text-lg border border-gray-200 rounded-xl placeholder-gray-400 text-gray-900 bg-white/90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 hover:border-purple-300"
 								className={input_css}
 								placeholder="请输入密码"
 								value={formData.password}
