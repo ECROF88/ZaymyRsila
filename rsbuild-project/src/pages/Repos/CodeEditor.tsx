@@ -175,30 +175,6 @@ const CodeEditor: React.FC = () => {
 		);
 	}
 
-	// if (selectedFile?.diffLines) {
-	// 	// 显示差异视图
-	// 	return (
-	// 		<div className="h-full w-full">
-	// 			<Editor
-	// 				height="100%"
-	// 				width="100%"
-	// 				language={language}
-	// 				value={selectedFile.content || ""}
-	// 				options={{
-	// 					readOnly: true,
-	// 					minimap: { enabled: true },
-	// 					scrollBeyondLastLine: false,
-	// 					fontSize: 14,
-	// 					lineNumbers: "on",
-	// 					lineDecorationsWidth: 5,
-	// 					renderLineHighlight: "all",
-	// 				}}
-	// 				onMount={handleEditorDidMount}
-	// 			/>
-	// 		</div>
-	// 	);
-	// }
-
 	return (
 		<div className="h-full w-full">
 			<Editor
@@ -219,7 +195,6 @@ const CodeEditor: React.FC = () => {
 					automaticLayout: true, // 确保编辑器在容器大小变化时自适应
 				}}
 				onMount={handleEditorDidMount}
-				// 可以添加 onChange 回调，但因为是 readOnly，可能不需要
 			/>
 		</div>
 	);

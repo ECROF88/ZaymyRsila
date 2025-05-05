@@ -75,7 +75,10 @@ export default function Login() {
 								<title>错误提示图标</title>
 								<path
 									fillRule="evenodd"
-									d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+									d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 
+									1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 
+									11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 
+									1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
 									clipRule="evenodd"
 								/>
 							</svg>
@@ -96,7 +99,6 @@ export default function Login() {
 								name="identity"
 								type="text"
 								required
-								// className="block w-full px-4 py-4 text-lg border border-gray-200 rounded-xl placeholder-gray-400 text-gray-900 bg-white/90 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition duration-200 hover:border-purple-300"
 								className={input_css}
 								placeholder="请输入用户名或邮箱"
 								value={formData.identity}
@@ -134,7 +136,7 @@ export default function Login() {
 						</button>
 					</div>
 				</form>
-				<button
+				{/* <button
 					type="button"
 					className="mt-4 flex justify-around text-2xl  text-blue-400 hover:text-emerald-500 border-2 w-full duration-300 ease-in-out"
 					onClick={() => {
@@ -142,7 +144,7 @@ export default function Login() {
 					}}
 				>
 					go to dashboard
-				</button>
+				</button> */}
 			</div>
 		</div>
 	);

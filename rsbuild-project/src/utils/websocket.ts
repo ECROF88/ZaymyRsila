@@ -36,10 +36,10 @@ interface WebSocketStore {
   removeEventHandler: (eventType: WebSocketEventType, handler: (data: any) => void) => void;
 }
 
-// 事件处理器映射
+// handlers
 const eventHandlers: Record<string, ((data: any) => void)[]> = {};
 
-// WebSocket 状态管理
+// WebSocket store
 export const useWebSocketStore = create<WebSocketStore>((set, get) => ({
   socket: null,
   isConnected: false,
@@ -49,10 +49,9 @@ export const useWebSocketStore = create<WebSocketStore>((set, get) => ({
     const token = localStorage.getItem('token');
     if (!token) return;
     
-    // 判断是否已连接
     if (get().socket && get().isConnected) return;
     
-    // 创建 WebSocket 连接
+    // 创建连接
     const socket = new WebSocket(`ws://localhost:3000/api/ws/${token}`);
     
     socket.onopen = () => {
@@ -67,7 +66,6 @@ export const useWebSocketStore = create<WebSocketStore>((set, get) => ({
         
         let eventType: WebSocketEventType | undefined;
         
-        // 检查消息格式，适配后端返回的数据结构
         if (wsData.message === 'COMPLETED') {
           eventType = WebSocketEventType.REPO_CLONE_COMPLETED;
         } else if (wsData.message === 'FAILED') {
@@ -75,8 +73,6 @@ export const useWebSocketStore = create<WebSocketStore>((set, get) => ({
         }
         
         if (eventType) {
-          // 调用事件处理器
-          console.log("调用时间处理器")
           const handlers = eventHandlers[eventType] || [];
           handlers.forEach(handler => handler(wsData));
         }

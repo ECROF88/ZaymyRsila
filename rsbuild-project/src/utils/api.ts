@@ -2,9 +2,10 @@ import { CommitDetail, CommitInfo } from '@/pages/Repos/Git/types'
 import type { UserData, Repo } from './store'
 import axios from 'axios'
 import { handleAuthError } from './tool'
+import { PassWordChange } from '@/pages/Dashboard/UserInfo'
 
 const authApi = axios.create({
-  baseURL: 'http://localhost:3000/api/auth',
+  baseURL: 'http://localhost:3003/api/auth',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -12,7 +13,7 @@ const authApi = axios.create({
 })
 
 const protectedApi = axios.create({
-  baseURL: 'http://localhost:3000/api/protected',
+  baseURL: 'http://localhost:3003/api/protected',
   timeout: 5000,
   headers: {
     'Content-Type': 'application/json',
@@ -87,6 +88,15 @@ export function login(data: LoginData) {
 export function register(data: RegisterData) {
   return authApi.post<ApiResponse<null>>('/register', data)
 }
+
+export function updateEmail(data:string){
+  return protectedApi.post<ApiResponse<null>>('/user/update/email',data);
+}
+
+export function updatePassword(data:string){
+  return protectedApi.post<ApiResponse<null>>('/user/update/password')
+}
+
 
 // clone repo for user
 export function cloneRepo(data: CloneRepoData) {

@@ -49,6 +49,7 @@ export interface UserData {
   username: string
   email: string
   avatar?: string
+  group?:string
 }
 
 interface TCatStoreState {
