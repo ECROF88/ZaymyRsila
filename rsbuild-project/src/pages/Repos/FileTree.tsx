@@ -6,7 +6,6 @@ import React, { useEffect, useState, useMemo, useCallback } from "react";
 import { useRepoStore } from "./hooks/useRepoData";
 
 const FileTree: React.FC = () => {
-	// 使用选择器分离状态，只订阅需要的状态变化
 	const fileTree = useRepoStore((state) => state.fileTree);
 	const selectedFile = useRepoStore((state) => state.selectedFile);
 	const selectedRepo = useRepoStore((state) => state.selectedRepo);
