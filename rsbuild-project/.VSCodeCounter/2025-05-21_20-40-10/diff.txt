@@ -1,0 +1,72 @@
+Date : 2025-05-21 20:40:10
+Directory : c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src
+Total : 29 files,  -30 codes, 65 comments, 10 blanks, all 45 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| TypeScript JSX     |         16 |        389 |         27 |         43 |        459 |
+| JavaScript         |          2 |         -5 |         -3 |         -4 |        -12 |
+| JSON with Comments |          1 |        -22 |         -2 |         -3 |        -27 |
+| JSON               |          2 |        -77 |          0 |         -2 |        -79 |
+| TypeScript         |          6 |       -152 |         43 |         14 |        -95 |
+| Markdown           |          2 |       -163 |          0 |        -38 |       -201 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                         | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                            |         29 |        -30 |         65 |         10 |         45 |
+| . (Files)                                                                                    |          1 |          2 |         -8 |          1 |         -5 |
+| ..                                                                                           |          8 |       -272 |         -5 |        -49 |       -326 |
+| component                                                                                    |          1 |         -1 |         -1 |          0 |         -2 |
+| pages                                                                                        |         14 |        301 |         78 |         39 |        418 |
+| pages\Dashboard                                                                              |          4 |        150 |         -1 |          8 |        157 |
+| pages\Dashboard (Files)                                                                      |          3 |        118 |         -1 |          4 |        121 |
+| pages\Dashboard\hooks                                                                        |          1 |         32 |          0 |          4 |         36 |
+| pages\Login                                                                                  |          3 |          1 |          5 |          0 |          6 |
+| pages\Repos                                                                                  |          7 |        150 |         74 |         31 |        255 |
+| pages\Repos (Files)                                                                          |          3 |         88 |         20 |         15 |        123 |
+| pages\Repos\Git                                                                              |          3 |        117 |         11 |         16 |        144 |
+| pages\Repos\hooks                                                                            |          1 |        -55 |         43 |          0 |        -12 |
+| route                                                                                        |          1 |         32 |          1 |          3 |         36 |
+| utils                                                                                        |          4 |        -92 |          0 |         16 |        -76 |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                     | language           | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\README.md                                 | Markdown           |        -19 |          0 |        -11 |        -30 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\biome.json                                | JSON               |        -30 |          0 |         -1 |        -31 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\eslint.config.mjs                         | JavaScript         |          0 |         -3 |         -3 |         -6 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\notes.md                                  | Markdown           |       -144 |          0 |        -27 |       -171 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\package.json                              | JSON               |        -47 |          0 |         -1 |        -48 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\postcss.config.mjs                        | JavaScript         |         -5 |          0 |         -1 |         -6 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\rsbuild.config.ts                         | TypeScript         |         -5 |          0 |         -2 |         -7 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\App.tsx                               | TypeScript JSX     |          2 |         -8 |          1 |         -5 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\component\DropdownMenu.tsx            | TypeScript JSX     |         -1 |         -1 |          0 |         -2 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\Header.tsx            | TypeScript JSX     |          2 |          0 |          0 |          2 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\Home.tsx              | TypeScript JSX     |        -16 |         -3 |         -1 |        -20 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\UserInfo.tsx          | TypeScript JSX     |        132 |          2 |          5 |        139 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Dashboard\hooks\useUserData.tsx | TypeScript JSX     |         32 |          0 |          4 |         36 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Login\Login.tsx                 | TypeScript JSX     |         -7 |          5 |         -1 |         -3 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Login\Register.tsx              | TypeScript JSX     |         -1 |          0 |          0 |         -1 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Login\bg.tsx                    | TypeScript JSX     |          9 |          0 |          1 |         10 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\CodeEditor.tsx            | TypeScript JSX     |         73 |         17 |          8 |         98 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\FileTree.tsx              | TypeScript JSX     |         15 |          2 |          7 |         24 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\CommitList.tsx        | TypeScript JSX     |         86 |         11 |         10 |        107 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\DiffView.tsx          | TypeScript JSX     |         -6 |          0 |         -1 |         -7 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\Git\GitState.tsx          | TypeScript JSX     |         37 |          0 |          7 |         44 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\ReposList.tsx             | TypeScript JSX     |          0 |          1 |          0 |          1 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\pages\Repos\hooks\useRepoData.ts      | TypeScript         |        -55 |         43 |          0 |        -12 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\route\PretectedRoute.tsx              | TypeScript JSX     |         32 |          1 |          3 |         36 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\api.ts                          | TypeScript         |       -107 |          3 |         10 |        -94 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\store.ts                        | TypeScript         |          2 |          0 |          0 |          2 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\tool.ts                         | TypeScript         |         14 |          0 |          6 |         20 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\src\utils\websocket.ts                    | TypeScript         |         -1 |         -3 |          0 |         -4 |
+| c:\Users\D1mo\Documents\ZaymyRsila\rsbuild-project\tsconfig.json                             | JSON with Comments |        -22 |         -2 |         -3 |        -27 |
+| Total                                                                                        |                    |        -30 |         65 |         10 |         45 |
++----------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

@@ -41,6 +41,7 @@ export const useUserStore = create<UserStore>()(
 							userData: response.data.data,
 							loading: false,
 						});
+						console.log(response.data.data.avatar)
 					} else {
 						throw new Error(response?.data?.message || "获取用户信息失败");
 					}

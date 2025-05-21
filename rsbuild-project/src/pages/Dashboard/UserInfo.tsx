@@ -1,10 +1,10 @@
-import type { UserData } from "../../utils/store";
 import { LockOutlined, MailOutlined, UserOutlined } from "@ant-design/icons";
-import { Button, Card, Divider, Form, Input, message } from "antd";
+import { Button, Card, Divider, Form, Input, message, Select } from "antd";
 import { useCallback, useEffect, useState } from "react";
 import AvatarUpload from "../../component/AvatarUpload";
 import { useUserStore } from "./hooks/useUserData";
-import { updateEmail, updatePassword } from "@/utils/api";
+import { DepartmentInfo, getAllDepartment, mockGetAllDepartment, updateEmail, updatePassword } from "@/utils/api";
+
 export interface PassWordChange {
 	newPassword: string;
 	confirmPassword: string;
@@ -16,12 +16,16 @@ function UserInfo() {
 	const [messageApi, contextHolder] = message.useMessage();
 	const [isEditing, setIsEditing] = useState(false);
 	const [isPasswordEdit, setPasswordEdit] = useState(false);
-	const handleEmailSubmit = async (values: { email: string }) => {
+	const [departments, setDepartments] = useState<DepartmentInfo[]>([]); // 新增：存储部门列表
+	const [departmentsLoading, setDepartmentsLoading] = useState(false); // 新增：部门数据加载状态
+
+
+	const handleEmailSubmit = async (values: { email: string; department_id: string; avatar?: string }) => {
 		try {
 			const emailString = values.email;
 			console.log("email is ", emailString);
 			// await updateUserData(values);
-			const res = await updateEmail(emailString);
+			const res = await updateEmail(values);
 			console.log("更新邮箱Res:", res);
 			messageApi.open({
 				type: "success",
@@ -72,6 +76,29 @@ function UserInfo() {
 		fetch();
 	}, []);
 
+
+	useEffect(() => {
+		const fetchDepartments = async () => {
+			setDepartmentsLoading(true);
+			try {
+				// const response = await getAllDepartment();
+				const response = await mockGetAllDepartment();
+				if (response.data.code === 200) {
+					setDepartments(response.data.data);
+				} else {
+					messageApi.error(response.data.message || '获取小组列表失败');
+				}
+			} catch (err) {
+				messageApi.error('获取小组列表失败');
+				console.error("Failed to fetch departments:", err);
+			} finally {
+				setDepartmentsLoading(false);
+			}
+		};
+
+		fetchDepartments();
+	}, [messageApi]);
+
 	return (
 		<div className="p-6 items-center">
 			{loading && <div>加载中...</div>}
@@ -80,8 +107,11 @@ function UserInfo() {
 			<Card title="个人信息" className="max-w-2xl w-full shadow-md">
 				<div className="flex flex-col items-center mb-8">
 					<AvatarUpload
+
 						value={userData?.avatar}
-						onChange={(url) => updateUserData({ ...userData, avatar: url })}
+						// value={"https://img.picui.cn/free/2025/05/21/682dcdc065687.png"}
+						// onChange={(url) => updateUserData({ ...userData, avatar: url })}
+						onChange={(url) => updateUserData({ ...userData, avatar: "https://img.picui.cn/free/2025/05/21/682dcdc065687.png" })}
 					/>
 				</div>
 				<Divider orientation="left" className="bg-gray-100 ">
@@ -114,8 +144,22 @@ function UserInfo() {
 						/>
 					</Form.Item>
 
-					<Form.Item label="小组">
-						<Input placeholder={userData.group || userGroup} disabled />
+					<Form.Item
+						label="小组"
+						name="department_id" // name 应该与后端期望的字段匹配，通常是 ID
+					>
+						<Select
+							placeholder="请选择小组"
+							disabled={!isEditing || departmentsLoading} // 编辑时或部门加载时禁用
+							loading={departmentsLoading} // Select 组件的加载状态
+							allowClear // 允许清除选择
+						>
+							{departments.map((dept) => (
+								<Select.Option key={dept.id} value={dept.id}>
+									{dept.name}
+								</Select.Option>
+							))}
+						</Select>
 					</Form.Item>
 
 					<Form.Item className="text-right space-x-2">

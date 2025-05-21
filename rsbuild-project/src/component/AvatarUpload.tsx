@@ -44,6 +44,7 @@ const AvatarUpload: React.FC<AvatarUploadProps> = ({ value, onChange }) => {
   }) => {
     setFileList(newFileList)
     if (file.status === 'done' && file.response) {
+      console.log(file.response)
       // 假设API返回 { url: 'xxx' } 格式
       onChange?.(file.response.url)
     }

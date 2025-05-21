@@ -3,16 +3,13 @@ import type {
 	CommitDetail,
 	CommitFileChange,
 	CommitInfo,
-	GitCommit,
-	ParsedDiff,
 } from "./types";
 import type React from "react";
 import { useEffect, useState } from "react";
 import {
 	getCommitHistories,
 	getDiff,
-	getGitCommitDetail,
-	getGitHistory,
+	getRepoTotalCount,
 } from "../../../utils/api";
 import useRepoData from "../hooks/useRepoData";
 import CommitList from "./CommitList";
@@ -30,12 +27,19 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
 	const [loading, setLoading] = useState(false);
 	const { setDiffContent } = useRepoData();
 
+	const [currentPage, setCurrentPage] = useState(1);
+	const [totalCommits, setTotalCommits] = useState(0);
+	const commitsPerPage = 5; // 每页显示5条记录
+
 	useEffect(() => {
 		if (repo) {
 			setCommits([]);
 			setSelectedCommit(null);
 			setCommitDetail(null);
-			fetchCommitHistories();
+			fetchCommitHistories(1);
+
+			setCurrentPage(1); // 重置页码
+			fetchCommitsTotal(repo.name); // 获取总数
 		} else {
 			setCommits([]);
 			setSelectedCommit(null);
@@ -43,14 +47,29 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
 		}
 	}, [repo]);
 
-	const fetchCommitHistories = async () => {
+
+	const fetchCommitsTotal = async (repo: string) => {
+
+		try {
+			const total_count = await getRepoTotalCount({ repo_name: repo });
+			console.log("total count is", total_count.data.data)
+			setTotalCommits(total_count.data.data);
+		} catch (error) {
+			console.log("fail to get total count");
+		}
+	}
+
+	const fetchCommitHistories = async (n: number) => {
+		console.log("fetching page is", n)
 		try {
 			setLoading(true);
 			const response = await getCommitHistories({
 				repo_name: repo.name,
-				limit: 10,
+				limit: commitsPerPage,
+				page: n
 			});
 			setCommits(response.data.data);
+			setCurrentPage(n);
 		} catch (error) {
 			console.error("加载示例commits出错:", error);
 		} finally {
@@ -61,7 +80,6 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
 	const handleCommitSelect = async (hash: string) => {
 		try {
 			setLoading(true);
-			// const response = await getGitCommitDetail(repo.id, hash);
 			const response = await getDiff({ repo_name: repo.name, commit_id: hash });
 			setCommitDetail(response.data.data);
 			setSelectedCommit(hash);
@@ -78,6 +96,12 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
 		setDiffContent(parsedDiff, fileChange.path);
 	};
 
+	// 处理页码变化
+	const handlePageChange = (page: number) => {
+		fetchCommitHistories(page);
+
+	};
+
 	return (
 		<div className="flex h-full gap-2 p-2 bg-gradient-to-br from-blue-100 to-indigo-50 overflow-hidden">
 			<CommitList
@@ -85,6 +109,10 @@ const GitState: React.FC<GitStateProps> = ({ repo }) => {
 				selectedCommit={selectedCommit}
 				onSelectCommit={handleCommitSelect}
 				loading={loading}
+				currentPage={currentPage}
+				totalCommits={totalCommits}
+				commitsPerPage={commitsPerPage}
+				onPageChange={handlePageChange}
 			/>
 			<DiffView
 				commitDetail={commitDetail}
