@@ -3,6 +3,7 @@ import type { UserData, Repo } from './store'
 import axios from 'axios'
 import { handleAuthError } from './tool'
 import { PassWordChange } from '@/pages/Dashboard/UserInfo'
+import { MessagePageUserVo } from '@/pages/Dashboard/Msg'
 
 const authApi = axios.create({
   baseURL: 'http://localhost:3003/api/auth',
@@ -241,6 +242,10 @@ export interface GetMessageResponse {
 
 export function getMessage() {
   return protectedApi.get<ApiResponse<GetMessageResponse[]>>("/user/msg")
+}
+
+export function getMessageUserData() {
+  return authApi.get<ApiResponse<MessagePageUserVo[]>>("/user/list")
 }
 
 // 用于历史提交列表的简化结构

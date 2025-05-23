@@ -1,9 +1,9 @@
-import { addMessage } from '@/utils/api';
+import { addMessage, getMessageUserData } from '@/utils/api';
 import { message } from 'antd';
 import { useState, useEffect } from 'react';
 
 // 根据你提供的UserVo接口
-interface UserVo {
+export interface MessagePageUserVo {
   phone: string;
   email: string;
   department_name: string;
@@ -19,7 +19,7 @@ interface AddMessageRequest {
 
 interface MessageDialogProps {
   isOpen: boolean;
-  selectedUsers: UserVo[];
+  selectedUsers: MessagePageUserVo[];
   onClose: () => void;
   onSend: (request: AddMessageRequest) => Promise<void>;
 }
@@ -139,9 +139,9 @@ function UserCard({
   isSelected,
   onToggleSelect
 }: {
-  user: UserVo;
+  user: MessagePageUserVo;
   isSelected: boolean;
-  onToggleSelect: (user: UserVo) => void;
+  onToggleSelect: (user: MessagePageUserVo) => void;
 }) {
   return (
     <div
@@ -175,10 +175,10 @@ function UserCard({
 }
 
 export default function Msg() {
-  const [users, setUsers] = useState<UserVo[]>([]);
+  const [users, setUsers] = useState<MessagePageUserVo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedUsers, setSelectedUsers] = useState<UserVo[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<MessagePageUserVo[]>([]);
   const [showMessageDialog, setShowMessageDialog] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -188,7 +188,7 @@ export default function Msg() {
   }, []);
 
 
-  const generateMockUsers = (count: number): UserVo[] => {
+  const generateMockUsers = (count: number): MessagePageUserVo[] => {
     const departments = ['技术部', '产品部', '市场部', '人事部', '财务部', '运营部', '设计部', '法务部'];
     const emailDomains = ['@company.com', '@tech.com', '@business.com'];
 
@@ -216,15 +216,11 @@ export default function Msg() {
     try {
       setLoading(true);
       setError(null);
-      const mockUserData = generateMockUsers(20);
-      // const response = await fetch('/api/user/list');
-      // if (!response.ok) {
-      //   throw new Error('获取用户列表失败');
-      // }
-
-      // const userData: UserVo[] = await response.json();
-      // setUsers(userData);
-      setUsers(mockUserData);
+      const res = await getMessageUserData();
+      console.log(res.data.data);
+      if (res.status === 200) {
+        setUsers(res.data.data);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : '获取用户列表失败');
       console.error('获取用户列表失败:', err);
@@ -252,7 +248,7 @@ export default function Msg() {
 
 
   // 切换用户选择状态
-  const toggleUserSelection = (user: UserVo) => {
+  const toggleUserSelection = (user: MessagePageUserVo) => {
     setSelectedUsers(prev => {
       const isSelected = prev.some(u => u.phone === user.phone);
       if (isSelected) {
@@ -276,8 +272,8 @@ export default function Msg() {
   // 搜索过滤
   const getFilteredUsers = () => {
     return users.filter(user =>
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.department_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.department_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.phone.includes(searchTerm)
     );
   };
