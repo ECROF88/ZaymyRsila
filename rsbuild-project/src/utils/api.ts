@@ -131,9 +131,9 @@ export function getFiles(repo_name: string) {
 }
 
 
-export interface DepartmentInfo{
-  id:number;
-  name:string,
+export interface DepartmentInfo {
+  id: number;
+  name: string,
 }
 // 获取全部部门信息
 export function getAllDepartment() {
@@ -219,6 +219,29 @@ export function getRepoTotalCount(data: getRepoTotalCount) {
   return protectedApi.get<ApiResponse<number>>("/repo/commit_count", { params: data })
 }
 
+interface AddMessageRequest {
+  content?: string;
+  message_type?: string;
+  user_id_vec?: string[];
+}
+export function addMessage(data: AddMessageRequest) {
+  console.log("addMessage data:", data)
+  return authApi.post<ApiResponse<null>>("/add/message", data)
+}
+
+
+export interface GetMessageResponse {
+
+  message_type: string,
+  content: string,
+  read_status: string,
+  created_at: string,
+
+}
+
+export function getMessage() {
+  return protectedApi.get<ApiResponse<GetMessageResponse[]>>("/user/msg")
+}
 
 // 用于历史提交列表的简化结构
 interface GitHistoryItem {

@@ -39,6 +39,13 @@ const Sidebar: React.FC = () => {
         label: '我的仓库',
         path: '/dashboard/repos',
       },
+      // Msg
+      {
+        key: 'message',
+        icon: <ApartmentOutlined />,
+        label: '消息',
+        path: '/dashboard/message',
+      }
     ],
     [],
   )

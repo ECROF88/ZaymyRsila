@@ -17,6 +17,7 @@ import "./App.css";
 import { useEffect } from "react";
 import { initWebSocket } from "./utils/websocket";
 import ProtectedRoute from "./route/PretectedRoute";
+import Msg from "./pages/Dashboard/Msg";
 
 function App() {
 	return (
@@ -32,6 +33,7 @@ function App() {
 							<Route index element={<Home />} />
 							<Route path="home" element={<Home />} />
 							<Route path="userinfo" element={<UserInfo />} />
+							<Route path="message" element={<Msg />} />
 							<Route path="repos" element={<ReposLayout />} />
 						</Route>
 					</Route>
